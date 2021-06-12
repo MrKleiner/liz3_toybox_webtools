@@ -29,7 +29,7 @@
 // =================================================================
 
 
-// alright, so you wanna save that sweet lizard porn before it gets deleted from youtube, because youtube is pussy
+// alright, so you wanna save that sweet lizard porn before it gets deleted from youtube, because youtube is a pussy
 
 // basically, same fucking shit as usual
 document.addEventListener('click', event => {
