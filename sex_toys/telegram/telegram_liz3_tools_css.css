@@ -1,0 +1,575 @@
+/*
+@import url("https://dl.dropbox.com/s/tuk1t8ntvn84375/dark.css?dl=0");
+*/
+
+
+.ded2
+{
+  display: none;
+}
+
+
+
+
+
+/*
+=========================
+Blender
+=========================
+*/
+
+:root
+{
+	--bemnu_bg: rgba(31, 31, 31, 0.937);
+	--bmenu_outline_col: #19191A;
+	--bmenu_outline: 1px solid #19191A;
+	--bmenu_hover: #5680C2;
+	--bmenu_item_text: #E6E6E6;
+	--bmenu_header_dim: #a3a3a3;
+	--bmenu_shadow: 0px 1px 3px 0px rgba(0,0,0,0.9);
+	--bmenu_border_radius: 6px;
+	--bmenu_text_field_bg: #595959;
+	--bmenu_text_field_bg_hover: #808080;
+	--bmenu_text_field_border: 1px solid #444444;
+	--blender_text_shadow: 0px 1px 2px #262626;
+	--bmenu_button_def_blu: #5076b2;
+	--blender_text_select: #191919;
+	--blender_tooltip: rgba(25, 25, 26, 0.937255);
+}
+
+/*
+=========================
+Blender
+=========================
+*/
+
+
+
+
+
+/*
+=========================
+Menu
+=========================
+*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+@import url("https://dl.dropbox.com/s/r3khmyp4kjpoymi/droidsans.ttf?dl=0");
+
+@font-face 
+{
+	font-family: "blender";
+	src: url("https://dl.dropbox.com/s/r3khmyp4kjpoymi/droidsans.ttf?dl=0");
+}
+
+.class_hidden
+{
+	display: none !important;
+}
+
+.noselect
+{
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.flip_x
+{
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
+}
+
+.elem_hover:hover
+{
+	filter: grayscale(100%);
+}
+
+
+.bmenu_root
+{
+	z-index: 999999;
+	position: fixed;
+	/* width: 200px;*/
+	min-width: 190px;
+	max-width: 270px;
+	display: flex;
+	color: #E6E6E6;
+	font-family: 'blender', sans-serif;
+	font-size: 12px;
+}
+
+.bmenu_menu
+{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	background: rgba(31, 31, 31, 0.937);
+	border: 1px solid #19191A;
+	border-radius: 6px;
+	padding: 5px 1px 5px 1px;
+
+
+	-webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.9); 
+	box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.9);
+}
+
+.bmenu_entry
+{
+	/*	
+	padding: 2px 0px 2px 30px;
+	
+	padding: 2px 0px 2px 0px;
+  */
+	display: flex;
+	margin-top: 2px;
+}
+
+.bmenu_entry_left_side
+{
+	width: 30px;
+	display: flex;
+	justify-content: center;
+  align-items: center;
+}
+
+.bmenu_entry:hover
+{
+	background: #5680C2;
+}
+
+.bmenu_header
+{
+	padding: 0px 0px 2px 10px;
+	display: flex;
+	margin-top: 2px;
+	color: #a5a5a5;
+}
+
+.bmenu_head_separator
+{
+	height: 1px;
+	display: flex;
+	margin: 3px 0px 3px 0px;
+	background: #393939;
+}
+
+.bmenu_separator
+{
+	height: 1px;
+	display: flex;
+	margin: 7px 0px 5px 0px;
+	background: #393939;
+}
+
+.disableds {
+	pointer-events: none;
+	cursor: default;
+}
+
+
+.bmenu_checkbox_checked_bg 
+{
+    background: #5379b4 !important;
+}
+
+.bmenu_checkbox 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 12px;
+    height: 12px;
+    background: #666666;
+    border-radius: 3px;
+    border: 1px solid #373737;
+}
+
+
+.bmenu_checkbox_checkmark 
+{
+    width: 2px;
+    height: 7px;
+    background: none;
+	opacity: 1;
+	transform: rotate(
+		45deg
+	);
+	border: solid white;
+	border-width: 0 2px 2px 0;
+	margin-bottom: 2px;
+}
+
+
+.bmenu_menu *
+{
+  -webkit-box-sizing: unset;
+}
+
+
+
+
+
+
+
+
+/*
+============================================
+  bmenu pswd setter
+============================================
+*/
+
+
+
+.pswd_editor *
+{
+    padding: 0px;
+    margin: 0px;
+    font-family: 'blender', sans-serif;
+    font-size: 11px;
+    text-shadow: 0px 1px 2px #262626;
+    color: white;
+}
+
+.hover_editor_1_root 
+{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 300px;
+    /* height: 100px; */
+    background: #151515e0;
+    /* margin-top: -110px; */
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid black;
+    padding-bottom: 13px;
+}
+
+.hover_editor_1_btns 
+{
+    display: flex;
+    height: 20px;
+    width: 80%;
+    /* background: #799ed7; */
+    background: #5076b2;
+    margin-top: 10px;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #3f3f3f;
+    user-select: none;
+}
+
+
+.hover_editor_1_input_container 
+{
+	display: flex;
+	width: 80%;
+	height: 20px;
+	outline: 0px;
+	color: white;
+	margin: 10px 5px 1px 5px;
+}
+
+
+.hover_editor_1_btns 
+{
+    display: flex;
+    height: 20px;
+    width: 80%;
+    /* background: #799ed7; */
+    background: #5076b2;
+    margin-top: 10px;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #3f3f3f;
+    user-select: none;
+}
+
+.hover_editor_1_input 
+{
+    all: unset;
+    width: 100%;
+    height: 20px;
+    outline: 0px;
+    background: #595959;
+    color: white;
+    padding: 1px 8px 1px 8px;
+    border-radius: 4px;
+    cursor: default;
+    border: 1px solid #444444;
+}
+
+.hover_editor_1_btns:active 
+{
+    background: #5076b2;
+}
+
+.hover_editor_1_btns:hover 
+{
+    background: #799ed7;
+}
+
+.hover_editor_1_input:hover 
+{
+    background: #808080;
+}
+
+.hover_editor_1_btns:active 
+{
+    background: #5076b2;
+}
+
+
+/*
+============================================
+  bmenu pswd setter
+============================================
+*/
+
+
+
+
+.liz3_alt_msg_input
+{
+  left: -17px; 
+  width: calc(100% + 34px); 
+  padding-left: 19px; 
+  padding-right: 45px;
+  display: flex;
+  align-items: flex-start;
+  overflow-wrap: break-word;
+}
+
+
+/* spammer 
+todo: :root reuse
+*/
+
+
+
+
+
+
+/*
+============================================
+  bmenu creator
+============================================
+*/
+
+.bmenu_creator_root *
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+
+.noselect
+{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.bmenu_creator_root
+{
+  position: absolute;
+	z-index: 9999999;
+	display: flex;
+	widths: 330px;
+	background: var(--bemnu_bg);
+	border: var(--bmenu_outline);
+	box-shadow: var(--bmenu_shadow);
+	border-radius: var(--bmenu_border_radius);
+	
+	color: var(--bmenu_header_dim);
+	font-family: 'blender', sans-serif;
+	font-size: 12px;
+	
+	text-shadow: var(--blender_text_shadow);
+}
+
+.bmenu_creator_root *::selection
+{
+	background: var(--blender_text_select);
+}
+
+.bmenu_creator
+{
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	padding-bottom: 5px;
+}
+
+.bmenu_creator_header
+{
+	color: var(--bmenu_header_dim);
+	margin-top: 11px;
+	margin-left: 8px;
+}
+
+.bmenu_creator_body
+{
+	display: flex;
+	margin-top: 7px;
+}
+
+.bmenu_creator_body_left
+{
+	display: flex;
+	flex-direction: column;
+	widths: 55%;
+  align-items: flex-end;
+}
+
+.bmenu_creator_l_row
+{
+  
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	height: 22px;
+  width: 95%;
+	margin: 3px 0px 3px 0px;
+	padding-right: 10px;
+	padding-left: 10px;
+
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+  
+}
+
+.bmenu_creator_body_right
+{
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+  width: 175px;
+}
+
+.bmenu_creator_r_row
+{
+	display: flex;
+	height: 22px;
+	margin: 3px 0px 3px 0px;
+	padding-right: 7px;
+}
+
+.bmenu_row_text_input 
+{
+	
+    all: unset;
+	display: flex;
+	text-align: center;
+	align-items: center;
+    width: 100%;
+	heightd: 100%;
+    outline: 0px;
+    background: var(--bmenu_text_field_bg);
+    color: white;
+    padding: 0px 8px 0px 8px;
+    border-radius: 4px;
+    cursor: e-resize;
+    border: var(--bmenu_text_field_border);
+}
+
+.bmenu_row_text_input:hover 
+{
+    background: var(--bmenu_text_field_bg_hover);
+}
+
+.bmenu_confirm_btn 
+{
+	color: white;
+    display: flex;
+    height: 20px;
+	width: 100%;
+    /* background: #799ed7; */
+    background: var(--bmenu_button_def_blu);
+    margin-top: 10px;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #3f3f3f;
+    user-select: none;
+}
+
+.bmenu_confirm_btn:hover 
+{
+    background: #799ed7;
+}
+
+.align_self_center
+{
+	align-self: center;
+}
+
+.confirm_illuminati
+{
+	padding: 0px 7px 0px 7px;
+}
+
+/*
+============================================
+  bmenu creator
+============================================
+*/
+
+
+
+
+
+/*
+============================================
+  blender tooltips
+============================================
+*/
+
+.mrk_ect_tooltip_box
+{
+	z-index: 9999999999;
+	white-space: pre;
+	position: absolute;
+	display: flex;
+	margin-top: 25px;
+	background: var(--blender_tooltip);
+	border-radius: var(--bmenu_border_radius);
+	border: var(--bmenu_outline);
+	color: white;
+	font-family: 'blender', sans-serif;
+	font-size: 11px;
+	padding: 9px;
+	text-shadow: var(--blender_text_shadow);
+	box-shadow: var(--bmenu_shadow);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
