@@ -1,5 +1,6 @@
 // check whether element exists or not.
 // todo: improve functionality
+// insert a selector with no $
 function mviewfinder(search_what, trigger_func, interval)
 {
 	let greet = function(){
