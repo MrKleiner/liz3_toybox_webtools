@@ -1,7 +1,7 @@
 // check whether element exists or not.
 // todo: improve functionality
 // insert a selector with no $
-function mviewfinder(search_what, trigger_func, interval)
+function liz3_mviewfinder(search_what, trigger_func, interval)
 {
 	let greet = function(){
 		console.log('Howdy!');
@@ -140,3 +140,44 @@ console.log(getKeys(js,'SGML'));
 //returns array ["ID", "SortAs", "Acronym", "str"] 
 
 */
+
+
+
+// proper random shit
+// methods: 
+// "flac" - adv
+// "num" - number
+// [default] - simple
+function liz3_rndwave(length, method) {
+    var result           = '';
+	/*
+	if (method == 'flac')
+	{
+		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-()=+*#/!&?<>$~';
+	}else{
+	    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
+	}
+	*/
+	
+	switch (method) {
+		case 'flac':
+		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-()=+*#/!&?<>$~';
+			break;
+		case 'num':
+		var characters = '1234567890';
+			break;
+		default:
+		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
+		// console.log(`Sorry, we are out of ${expr}.`);
+			break;
+	}
+	
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+
+// console.log(makeid(16));
