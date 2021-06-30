@@ -3,23 +3,29 @@
 // insert a selector with no $
 function liz3_mviewfinder(search_what, trigger_func, interval)
 {
-	let greet = function(){
-		console.log('Howdy!');
-		console.log(interval);
+	if (typeof search_what == 'undefined' || typeof trigger_func == 'undefined' || typeof interval == 'undefined')
+	{
+		console.log('liz3 viewfinder bad arguments !')
+	}else{
+		let greet = function(){
+			console.log('Howdy!');
+			console.log(interval);
 
+			if ($(search_what).length < 1)
+			{
+				setTimeout(greet, interval);
+			}else{
+				console.log('found_shit');
+				eval(trigger_func)()
+			}
+		};
+		
 		if ($(search_what).length < 1)
 		{
 			setTimeout(greet, interval);
-		}else{
-			console.log('found_shit');
-			eval(trigger_func)()
 		}
-	};
-	
-	if ($(search_what).length < 1)
-	{
-		setTimeout(greet, interval);
 	}
+
 }
 
 
