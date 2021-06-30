@@ -3,7 +3,7 @@
 // insert a selector with no $
 function liz3_mviewfinder(search_what, trigger_func, interval)
 {
-	if (typeof search_what == 'undefined' || typeof trigger_func == 'undefined' || typeof interval == 'undefined')
+	if (typeof search_what == 'undefined' || typeof trigger_func == 'undefined' || typeof interval == 'undefined' || isNaN(interval) )
 	{
 		console.log('liz3 viewfinder bad arguments !')
 	}else{
