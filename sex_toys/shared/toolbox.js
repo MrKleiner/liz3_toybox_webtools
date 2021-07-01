@@ -1,3 +1,12 @@
+// A dummy function to indicate that the toolbox was loaded
+function liz3_toolbox_stuff()
+{
+	console.log('liz3_loaded');
+	return 'liz3_loaded'
+}
+
+
+
 // check whether element exists or not.
 // todo: improve functionality
 // insert a selector with no $
@@ -31,7 +40,7 @@ function liz3_mviewfinder(search_what, trigger_func, interval)
 
 
 
-// sort elements
+// sort elements ( broken )
 // what - elem to sort, pseudo selector
 // where - container where elem is, selector
 // how - asc for ascending and desc for descending
