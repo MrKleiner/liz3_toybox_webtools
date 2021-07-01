@@ -236,3 +236,43 @@ function liz3_checkCookie() {
     }
   }
 }
+
+
+// load user script
+// specify what script to load
+function liz3_load_dasboat(uscript)
+{
+    // $('body').append('<div>loaded shit</div>')
+    function success()
+    {
+        // var $ = window.jQuery;
+        console.log('liz3_loaded_userscript');
+        // $('body').append('<div>loaded shit</div>');
+    }
+    var startingTime = new Date().getTime();
+    // Load the script
+    var script = document.createElement("SCRIPT");
+    script.src = uscript;
+    script.type = 'text/javascript';
+    script.onload = function() {
+        // var $ = window.jQuery;
+        $(function() {
+            var endingTime = new Date().getTime();
+            var tookTime = endingTime - startingTime;
+            console.log("l3UScript loaded in " + tookTime + " milliseconds");
+            // $('body').append('<div>loaded shit</div>')
+        });
+    };
+    document.getElementsByTagName("head")[0].appendChild(script);
+}
+
+
+
+
+
+
+
+
+
+
+
