@@ -1,8 +1,8 @@
 // A dummy function to indicate that the toolbox was loaded
 function liz3_toolbox_stuff()
 {
-	console.log('liz3_loaded');
-	return 'liz3_loaded'
+	console.log('liz3_loaded_ver_0_31');
+	return 'liz3_loaded_ver_0_31'
 }
 
 
