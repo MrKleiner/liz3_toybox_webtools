@@ -178,7 +178,7 @@ function liz3_rndwave(length, method, addchars) {
 	{
 		var addon_chars = '';
 	}else{
-		var addon_chars = addchars.toString();
+		var addon_chars = addchars.toString().replaceAll(' ', '');
 	}
 	
 	switch (method) {
