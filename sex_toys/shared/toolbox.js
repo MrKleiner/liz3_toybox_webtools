@@ -188,6 +188,9 @@ function liz3_rndwave(length, method, addchars) {
 		case 'num':
 		var characters = '1234567890' + addchars.toString();
 			break;
+		case 'def':
+		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-' + addon_chars;
+			break;
 		default:
 		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-' + addon_chars;
 		// console.log(`Sorry, we are out of ${expr}.`);
