@@ -186,7 +186,7 @@ function liz3_rndwave(length, method, addchars) {
 		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-()=+*#/!&?<>$~' + addon_chars;
 			break;
 		case 'num':
-		var characters = '1234567890' + addchars.toString();
+		var characters = '1234567890' + addon_chars;
 			break;
 		case 'def':
 		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-' + addon_chars;
@@ -250,6 +250,7 @@ function liz3_checkCookie() {
 
 // load user script
 // specify what script to load
+// (link to .js)
 function liz3_load_dasboat(uscript)
 {
     // $('body').append('<div>loaded shit</div>')
@@ -275,14 +276,3 @@ function liz3_load_dasboat(uscript)
     };
     document.getElementsByTagName("head")[0].appendChild(script);
 }
-
-
-
-
-
-
-
-
-
-
-
