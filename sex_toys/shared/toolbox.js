@@ -163,7 +163,7 @@ console.log(getKeys(js,'SGML'));
 // "flac" - adv
 // "num" - number
 // [default] - simple
-function liz3_rndwave(length, method) {
+function liz3_rndwave(length, method, addchars) {
     var result           = '';
 	/*
 	if (method == 'flac')
@@ -173,16 +173,23 @@ function liz3_rndwave(length, method) {
 	    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
 	}
 	*/
+	var addon_chars = '';
+	if (typeof addchars == 'undefined')
+	{
+		var addon_chars = '';
+	}else{
+		var addon_chars = addchars.toString();
+	}
 	
 	switch (method) {
 		case 'flac':
-		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-()=+*#/!&?<>$~';
+		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-()=+*#/!&?<>$~' + addon_chars;
 			break;
 		case 'num':
-		var characters = '1234567890';
+		var characters = '1234567890' + addchars.toString();
 			break;
 		default:
-		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
+		var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-' + addon_chars;
 		// console.log(`Sorry, we are out of ${expr}.`);
 			break;
 	}
