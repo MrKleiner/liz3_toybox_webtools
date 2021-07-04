@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         mgh site parse
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.31
 // @description  It costs 400 000 dollars to fire this weapon for 12 seconds
 // @author       Heavy Weapons Guy
 // @match        https://mega.nz/*
@@ -15,10 +15,12 @@
 
 
 // .clone(true) to solve all world problems
-
+// window.location.search
 // first of all - let's take the page url with any possible parameters
 window.con_command = window.location.href;
 console.log(window.location.href)
+
+window.liz3_url_comms = new URLSearchParams(window.location.search);
 
 // now, just for consistency - wait for document ready state
 $(document).ready(function(){
@@ -75,7 +77,7 @@ $(document).ready(function(){
     // Here we will decide what to do and what to expect based on where we are. Yes, Tampermokey provies such functionality, but no, fuck you.
     // First, lets settle the start page stuff.
 
-
+    // if (window.liz3_url_comms.has("l3command"))
 
     // Split the page address. The location will always be the third elem. Then feed it into the switch
     if (con_command.split('/')[3].split('?')[0].includes('confirm'))
@@ -86,6 +88,7 @@ $(document).ready(function(){
 
     }
 
+    // split the webpage path and do shit according to the path
     switch (con_command.split('/')[3].split('?')[0]) {
 
         case 'login':
@@ -112,25 +115,40 @@ $(document).ready(function(){
         case 'fm':
             console.log('were at fm so that could be anything really. Check for further paths');
 
-            // check if we actually have the extended path
+
+            // Check if we actually have the extended path
+            /*
+               for example: https://mega.nz/fm/account
+            */
+            //
+            //
+            // if extended path exists - proceed to switches START
             if (typeof window.con_command.split('/')[4] != 'undefined')
             {
-                // another switch for fm paths
+                // another switch for fm paths START
                 switch (con_command.split('/')[4].split('?')[0]) {
 
+                        // This is only needed for the first-time activation, when we set the dark theme.
+                        // I guess more cases would come.
                     case 'account':
                         console.log('were at account. check for commands');
                         location_account()
                         break;
+
                     default:
+                        // just notify the user that we dont do shit
                         console.log('net err 173');
                         break;
                 }
-                // another switch for fm paths
+                // another switch for fm paths END
             }
+            // if extended path exists - proceed to switches END
+            //
+            //
 
             break;
         default:
+            // this will happen if we're at some randomass location, like some bs chat or smth
             console.log('so were most likely at smth like mega.nz. Well... Shit...');
             break;
     }
@@ -189,50 +207,55 @@ function login_pro_fixup()
 function check_for_register_info()
 {
 
-    // check if the command we've recieved is really about registering
-    if (window.con_command.includes('l3command'))
+    // check if the command we've recieved is really about registering and has any l3 commands at all
+    // if commands detected - try to read them
+    // if shit's malformed - everyone's gonna die
+    // The reason this is not a switch is because we're at register alr. There could be no other parameters.
+    // Thankfully, this will return false if no l3command is presented.
+    console.log(window.liz3_url_comms.get("l3command"))
+    if (window.liz3_url_comms.get("l3command") === 'reg_acc')
     {
-        if (window.con_command.split('/')[3].split('?')[1].split('&')[0].split('=')[1] == 'reg_acc')
-        {
-            // if so - decode parameters into json
-            var comm_decode = atob(window.con_command.split('/')[3].split('?')[1].split('&')[1].split('=')[1]);
 
-            var param_json = JSON.parse(comm_decode)[0];
-            // first name
-            $('#register-firstname-registerpage2').val(param_json.mfirst_nen);
+        // if so - decode parameters into json
+        // params are passed via rc_data
+        var comm_decode = atob(window.liz3_url_comms.get("rc_data"));
 
-            // last name
-            $('#register-lastname-registerpage2').val(param_json.mlast_nen);
+        var param_json = JSON.parse(comm_decode)[0];
+        // first name
+        $('#register-firstname-registerpage2').val(param_json.mfirst_nen);
 
-            // email
-            $('#register-email-registerpage2').val(param_json.email);
+        // last name
+        $('#register-lastname-registerpage2').val(param_json.mlast_nen);
 
-            // password
-            $('#register-password-registerpage2').val(param_json.megapas);
+        // email
+        $('#register-email-registerpage2').val(param_json.email);
 
-            // repeat pswd
-            $('#register-password-registerpage3').val(param_json.megapas);
+        // password
+        $('#register-password-registerpage2').val(param_json.megapas);
 
-            // cbox 1
-            $('.checkbox-block .understand-check *').click();
+        // repeat pswd
+        $('#register-password-registerpage3').val(param_json.megapas);
 
-            // cbox 2
-            $('.account .register-check *').click();
+        // cbox 1
+        $('.checkbox-block .understand-check *').click();
 
-            liz3_mviewfinder('.mega-dialog.dialog-template-graphic.registration-success.registration-page-success.special .reg-success-special', 'global_close_self', 50);
-            // register !
-            $('.mega-button.branded-red.large.register-button.right.active').click();
+        // cbox 2
+        $('.account .register-check *').click();
 
-            // close the tab we dont need it
-            setTimeout(function() {
-                // window.location.href = "https://mega.nz/fm";
-                // alert('3 sec delay');
-                // self.close();
-                // liz3_mviewfinder('#pro-yearly-payment', 'login_pro_fixup', 50);
-            }, 1500)
+        liz3_mviewfinder('.mega-dialog.dialog-template-graphic.registration-success.registration-page-success.special .reg-success-special', 'global_close_self', 50);
+        // register !
+        $('.mega-button.branded-red.large.register-button.right.active').click();
+
+        // close the tab we dont need it
+        setTimeout(function() {
+            // window.location.href = "https://mega.nz/fm";
+            // alert('3 sec delay');
+            // self.close();
+            // liz3_mviewfinder('#pro-yearly-payment', 'login_pro_fixup', 50);
+        }, 1500)
 
 
-        }
+
     }
 
 }
@@ -388,28 +411,5 @@ function artificial_shit()
 
 
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
