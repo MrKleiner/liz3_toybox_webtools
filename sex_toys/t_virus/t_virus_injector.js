@@ -1,18 +1,26 @@
 // ==UserScript==
 // @name         mgh site parse
 // @namespace    http://tampermonkey.net/
-// @version      0.31
+// @version      0.37
 // @description  It costs 400 000 dollars to fire this weapon for 12 seconds
 // @author       Heavy Weapons Guy
 // @match        https://mega.nz/*
 // @match        https://mega.io/*
 // @require      http://code.jquery.com/jquery-3.4.1.min.js
-// @require      https://cdn.jsdelivr.net/gh/MrKleiner/liz3_toybox_webtools@latest/sex_toys/shared/toolbox.js
+// @require      https://cdn.jsdelivr.net/gh/MrKleiner/liz3_toybox_webtools/sex_toys/shared/toolbox.js
 // @require      https://cdn.jsdelivr.net/gh/cemalgnlts/Mailjs/Mailjs.min.js
 // @grant        none
 // ==/UserScript==
 
-
+// temp function till jsdelivr is updated
+function liz3_copytext(l3text)
+{
+	var $temp = $('<input style="opacity: 0;position: absolute;">');
+	$("body").append($temp);
+	$temp.val(l3text).select();
+	document.execCommand("copy");
+	$temp.remove();
+}
 
 // .clone(true) to solve all world problems
 // window.location.search
@@ -83,7 +91,7 @@ $(document).ready(function(){
     if (con_command.split('/')[3].split('?')[0].includes('confirm'))
     {
         // location.href = "https://mega.nz/login";
-        console.log('includes confirm')
+        console.log('includes confirm');
         liz3_mviewfinder('#login-name2', 'confirm_fixup', 50);
 
     }
@@ -177,7 +185,7 @@ function location_login()
         // We never want to stay logged in. Check if the cbox is set and turn it off
         if ($('.account.checkbox-block.left .login-check.checkbox').hasClass('checkboxOn'))
         {
-            document.querySelector('.login-check.checkbox.checkboxOn').click()
+            document.querySelector('.login-check.checkbox.checkboxOn').click();
         }
     }
 
@@ -268,8 +276,23 @@ function global_close_self()
 
 function location_account()
 {
+    console.log('executing "location_account" func');
 
-    // check for commands
+    // as usual - quickcheck the command
+    // maybe do it a switch ???
+    console.log('current command is ' + window.liz3_url_comms.get("l3command"))
+    if (window.liz3_url_comms.get("l3command") === 'close_fuckshit_dark_shit')
+    {
+        liz3_mviewfinder('.mega-dialog.dialog-template-tool.revamp-onboarding .content', 'close_dark_mode_proposal', 50);
+    }
+
+
+
+
+
+
+    // check for commands OLD IMPLEMENTATION. ALSO THERE'S A MISSING } SOMEWHERE!!!! BE CAREFUL WHEN UNCOMMENTING!!!
+    /*
     if (window.con_command.includes('l3command'))
     {
         console.log('we include some commands')
@@ -289,6 +312,7 @@ function location_account()
             }
 
         }
+        */
 
         /*
         switch (con_command.split('/')[4].split('?')[0]) {
@@ -302,17 +326,30 @@ function location_account()
                 break;
         }
         */
-    }
 
 }
 
 function close_dark_mode_proposal()
 {
     setTimeout(function() {
-        document.querySelector('.mega-dialog.dialog-template-tool.revamp-onboarding header *').click();
-        document.querySelector('#themedark_div *').click();
-        document.querySelector('.nw-fm-left-icon.cloud-drive.sprite-fm-uni-before.icon-files-before.js-fm-tab.ui-droppable *').click();
 
+        setTimeout(function() {
+            document.querySelector('.mega-dialog.dialog-template-tool.revamp-onboarding header *').click();
+            console.log('clicked "close dark mode"');
+        }, 250)
+
+        setTimeout(function() {
+            document.querySelector('#themedark_div *').click();
+            console.log('clicked "set dark theme"');
+        }, 500)
+
+        setTimeout(function() {
+            document.querySelector('.nw-fm-left-icon.cloud-drive.sprite-fm-uni-before.icon-files-before.js-fm-tab.ui-droppable *').click();
+            console.log('clicked "go to home"');
+        }, 750)
+
+        // liz3_copytext($('#backup_keyinput_2fa').val());
+        console.log('backup key is ' + $('#backup_keyinput_2fa').val());
     }, 1500)
 
 }
@@ -411,5 +448,7 @@ function artificial_shit()
 
 
 */
+
+
 
 
