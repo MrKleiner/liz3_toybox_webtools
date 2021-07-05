@@ -276,3 +276,14 @@ function liz3_load_dasboat(uscript)
     };
     document.getElementsByTagName("head")[0].appendChild(script);
 }
+
+
+// copy smth
+function liz3_copytext(l3text)
+{
+	var $temp = $('<input style="opacity: 0;position: absolute;">');
+	$("body").append($temp);
+	$temp.val(l3text).select();
+	document.execCommand("copy");
+	$temp.remove();
+}
