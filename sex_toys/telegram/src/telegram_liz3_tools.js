@@ -41,26 +41,8 @@ I mean, this should theoretically protect you from your Telegram password being 
 
 
 
-
-/*
-
-function release_compiler()
-{
-    var all_css_compile = btoa($('#user-css').html());
-
-    var what_to_copy = 'var liz3_css_64 = "' + all_css_compile + '";';
-    // console.log(what_to_copy)
-    var $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val(what_to_copy).select();
-    document.execCommand("copy");
-    $temp.remove();
-}
-
-*/
-
-
-var liz3_css_64 = 'PHN0eWxlIGlkPSJsaXozX2Nzc19zdHlsZV90YWciPi5uaWx7ZGlzcGxheTogbm9uZTt9PC9zdHlsZT4';
+// css placeholder
+window.liz3_css_64 = 'PHN0eWxlIGlkPSJsaXozX2Nzc19zdHlsZV90YWciPi5uaWx7ZGlzcGxheTogbm9uZTt9PC9zdHlsZT4';
 
 window.bmenu_spammer_html =
 `
