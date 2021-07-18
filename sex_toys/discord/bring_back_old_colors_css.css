@@ -16,6 +16,7 @@
     --brand-experiment-30a: rgba(114, 137, 218, 0.3) !important;
     --brand-experiment-15a: rgba(114, 137, 218, 0.15) !important;
     --brand-experiment-560: #7289da !important;
+    --brand-experiment-500: #7289da !important;
     --brand-experiment-600: hsl(227, 48%, 55%) !important;
  }
  
@@ -28,12 +29,3 @@
  {
      background-color: rgba(114, 137, 218, 0.4) !important;
  }
- 
- 
-
- 
- 
- 
- 
- 
- 
