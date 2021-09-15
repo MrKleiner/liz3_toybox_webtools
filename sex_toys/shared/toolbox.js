@@ -290,10 +290,33 @@ function liz3_copytext(l3text)
 
 
 // convert rgb to hex
+// kinda offers smart parse
 function liz3_rgb2hex(rgb) {
     rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     function hex(x) {
         return ("0" + parseInt(x).toString(16)).slice(-2);
     }
     return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+}
+
+// generate a file download
+// simple, but way too simple sometimes
+function liz3_text_dl(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+
+
+// capitalize string
+String.prototype.lizcap = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
 }
