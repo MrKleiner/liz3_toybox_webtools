@@ -75,7 +75,7 @@ function sorter_snorter(what, where, by, how)
 
 
 // From github. Json/object searcher
-function getObjects(obj, key, val) {
+function liz3_getObjects(obj, key, val) {
       var objects = [];
       for (var i in obj) {
           if (!obj.hasOwnProperty(i)) continue;
@@ -97,7 +97,7 @@ function getObjects(obj, key, val) {
 
 
   //return an array of values that match on a certain key
-  function getValues(obj, key) {
+  function liz3_getValues(obj, key) {
       var objects = [];
       for (var i in obj) {
           if (!obj.hasOwnProperty(i)) continue;
@@ -112,7 +112,7 @@ function getObjects(obj, key, val) {
 
 
   //return an array of keys that match on a certain value
-  function getKeys(obj, val) {
+  function liz3_getKeys(obj, val) {
       var objects = [];
       for (var i in obj) {
           if (!obj.hasOwnProperty(i)) continue;
