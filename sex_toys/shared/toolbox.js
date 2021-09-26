@@ -320,3 +320,14 @@ function liz3_text_dl(filename, text) {
 String.prototype.lizcap = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
+
+// python things
+function str(inp)
+{
+	return inp.toString()
+}
+
+function int(inp)
+{
+	return parseInt(inp)
+}
