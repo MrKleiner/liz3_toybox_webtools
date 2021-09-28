@@ -331,3 +331,59 @@ function int(inp)
 {
 	return parseInt(inp)
 }
+
+
+// python-like range()
+function range(start, stop, step)
+{
+    star = 0;
+    sto = 17;
+    ste = 1;
+    motd = 'python range iterator error: strings are not allowed';
+    if (typeof start == 'undefined' && typeof stop == 'undefined' && typeof step == 'undefined' )
+    {
+        console.log('python range iterator error: no arguments given');
+        return []
+    }
+    if ( typeof start != 'undefined' && isNaN(parseInt(start)) )
+    {
+        console.log(motd)
+        return []
+    }
+    if ( typeof stop != 'undefined' && isNaN(parseInt(stop)) )
+    {
+        console.log(motd)
+        return []
+    }
+    if ( typeof step != 'undefined' && isNaN(parseInt(step)) )
+    {
+        console.log(motd)
+        return []
+    }
+
+    if (typeof start != 'undefined' && typeof stop == 'undefined' && typeof step == 'undefined' )
+    {
+        sto = parseInt(start);
+    }
+    if ( typeof stop != 'undefined' )
+    {
+        sto = parseInt(stop);
+        star = parseInt(start);
+    }
+    if ( typeof step != 'undefined' )
+    {
+        ste = parseInt(step)
+    }
+    
+    tgt_result = []
+    eligible = true
+    while (eligible) {
+        if (star < sto)
+        {
+            tgt_result.push(star)
+            star += ste
+        }else{
+            return tgt_result
+        }
+    }
+}
