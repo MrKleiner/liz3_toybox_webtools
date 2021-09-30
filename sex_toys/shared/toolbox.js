@@ -1,8 +1,8 @@
 // A dummy function to indicate that the toolbox was loaded
 function liz3_toolbox_stuff()
 {
-	console.log('liz3_loaded_ver_0_31');
-	return 'liz3_loaded_ver_0_31'
+	console.log('liz3_loaded_ver_0_32');
+	return 'liz3_loaded_ver_0_32'
 }
 
 
@@ -10,6 +10,7 @@ function liz3_toolbox_stuff()
 // check whether element exists or not.
 // todo: improve functionality
 // insert a selector with no $
+// todo: make it work like client state on change in XMLHttpRequest
 function liz3_mviewfinder(search_what, trigger_func, interval)
 {
 	if (typeof search_what == 'undefined' || typeof trigger_func == 'undefined' || typeof interval == 'undefined' || isNaN(interval) )
@@ -45,6 +46,8 @@ function liz3_mviewfinder(search_what, trigger_func, interval)
 // where - container where elem is, selector
 // how - asc for ascending and desc for descending
 // selector for number source
+// todo: The way this could possibly work: Generate array, sort it and then append from it back to target
+/*
 function sorter_snorter(what, where, by, how)
 {
 	where.each(function(){
@@ -67,7 +70,7 @@ function sorter_snorter(what, where, by, how)
 			})
 	});
 }
-
+*/
 
 
 
@@ -96,7 +99,7 @@ function liz3_getObjects(obj, key, val) {
   }
 
 
-  //return an array of values that match on a certain key
+  // return an array of values that match on a certain key
   function liz3_getValues(obj, key) {
       var objects = [];
       for (var i in obj) {
@@ -111,7 +114,7 @@ function liz3_getObjects(obj, key, val) {
   }
 
 
-  //return an array of keys that match on a certain value
+  // return an array of keys that match on a certain value
   function liz3_getKeys(obj, val) {
       var objects = [];
       for (var i in obj) {
@@ -163,6 +166,21 @@ console.log(getKeys(js,'SGML'));
 // "flac" - adv
 // "num" - number
 // [default] - simple
+// def - default
+// '' - default
+// todo: Current implementation is irrational.
+// Possible way of making it better:
+/*
+	specify every parameter as a key=value pair.
+	have defaults for them.
+	if overwritten - use what is being told to.
+	have many true/false statements.
+	half-obligatory rnd method selection: Default+addon, Adv+addon, Numeric, rnd number from range, custom dict.
+	if string then: Numbers TRUE/FALSE
+	if numeric - Zero in the beginning? TRUE/FALSE
+
+
+*/
 function liz3_rndwave(length, method, addchars) {
     var result           = '';
 	/*
@@ -199,8 +217,7 @@ function liz3_rndwave(length, method, addchars) {
 	
     var charactersLength = characters.length;
     for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * 
- charactersLength));
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
    }
    return result;
 }
@@ -214,14 +231,18 @@ function liz3_rndwave(length, method, addchars) {
 // set cookies. from https://www.w3schools.com/js/js_cookies.asp
 
 function liz3_setCookie(cname, cvalue, exdays) {
-  const d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  let expires = "expires="+d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	if ( typeof cname == 'undefined' || cvalue == 'undefined' || exdays == 'undefined' ) {
+		console.log('lizard\'s biscuits lack chocolate!')
+		return
+	}
+	const d = new Date();
+	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	let expires = 'expires='+d.toUTCString();
+	document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/';
 }
 
 function liz3_getCookie(cname) {
-  let name = cname + "=";
+  let name = cname + '=';
   let ca = document.cookie.split(';');
   for(let i = 0; i < ca.length; i++) {
     let c = ca[i];
@@ -232,25 +253,28 @@ function liz3_getCookie(cname) {
       return c.substring(name.length, c.length);
     }
   }
-  return "";
+  return '';
 }
 
+/*
 function liz3_checkCookie() {
-  let user = getCookie("username");
-  if (user != "") {
-    alert("Welcome again " + user);
+  let user = getCookie('username');
+  if (user != '') {
+    alert('Welcome again ' + user);
   } else {
-    user = prompt("Please enter your name:", "");
-    if (user != "" && user != null) {
-      setCookie("username", user, 365);
+    user = prompt('Please enter your name:', '');
+    if (user != '' && user != null) {
+      setCookie('username', user, 365);
     }
   }
 }
+*/
 
 
 // load user script
 // specify what script to load
 // (link to .js)
+// beware of gayshit CORS policy.
 function liz3_load_dasboat(uscript)
 {
     // $('body').append('<div>loaded shit</div>')
@@ -262,7 +286,7 @@ function liz3_load_dasboat(uscript)
     }
     var startingTime = new Date().getTime();
     // Load the script
-    var script = document.createElement("SCRIPT");
+    var script = document.createElement('SCRIPT');
     script.src = uscript;
     script.type = 'text/javascript';
     script.onload = function() {
@@ -270,21 +294,22 @@ function liz3_load_dasboat(uscript)
         $(function() {
             var endingTime = new Date().getTime();
             var tookTime = endingTime - startingTime;
-            console.log("l3UScript loaded in " + tookTime + " milliseconds");
+            console.log('l3UScript loaded in ' + tookTime + ' milliseconds');
             // $('body').append('<div>loaded shit</div>')
         });
     };
-    document.getElementsByTagName("head")[0].appendChild(script);
+    document.getElementsByTagName('head')[0].appendChild(script);
 }
 
 
 // copy smth
+// theoretically - very reliable
 function liz3_copytext(l3text)
 {
 	var $temp = $('<input style="opacity: 0;position: absolute;">');
-	$("body").append($temp);
+	$('body').append($temp);
 	$temp.val(l3text).select();
-	document.execCommand("copy");
+	document.execCommand('copy');
 	$temp.remove();
 }
 
@@ -294,13 +319,15 @@ function liz3_copytext(l3text)
 function liz3_rgb2hex(rgb) {
     rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     function hex(x) {
-        return ("0" + parseInt(x).toString(16)).slice(-2);
+        return ('0' + parseInt(x).toString(16)).slice(-2);
     }
-    return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    return '#' + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 }
 
 // generate a file download
 // simple, but way too simple sometimes
+// there are some BLOB approaches...
+// although this does work without any problems for 10+ mb files
 function liz3_text_dl(filename, text) {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -374,6 +401,11 @@ function range(start, stop, step)
     {
         ste = parseInt(step)
     }
+	if ( parseInt(start) > 9999999 || parseInt(stop) > 9999999 )
+	{
+		console.log('python range invalid range: value too high');
+		return []
+	}
     
     tgt_result = []
     eligible = true
