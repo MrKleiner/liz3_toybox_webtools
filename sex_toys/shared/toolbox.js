@@ -6,7 +6,7 @@ function liz3_toolbox_stuff()
 }
 
 
-
+// beware: this wont stfu til it finds what it's looking for
 // check whether element exists or not.
 // todo: improve functionality
 // insert a selector with no $
@@ -302,7 +302,7 @@ function liz3_load_dasboat(uscript)
 }
 
 
-// copy smth
+// copy smth to ctrl+c
 // theoretically - very reliable
 function liz3_copytext(l3text)
 {
@@ -315,7 +315,7 @@ function liz3_copytext(l3text)
 
 
 // convert rgb to hex
-// kinda offers smart parse
+// kinda offers smart parse ? 
 function liz3_rgb2hex(rgb) {
     rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
     function hex(x) {
@@ -363,10 +363,13 @@ function int(inp)
 // python-like range()
 function range(start, stop, step)
 {
+	
     star = 0;
     sto = 17;
     ste = 1;
     motd = 'python range iterator error: strings are not allowed';
+	// todo: this is some next-level retarded fucking shit
+	// I really deserve to die in terrifying agony of a big xenomorph eating me alive for doing such fucking shit.
     if (typeof start == 'undefined' && typeof stop == 'undefined' && typeof step == 'undefined' )
     {
         console.log('python range iterator error: no arguments given');
@@ -418,4 +421,12 @@ function range(start, stop, step)
             return tgt_result
         }
     }
+}
+
+
+
+
+// deletes duplicates from given array
+function liz3_rmdupli(a) {
+   return Array.from(new Set(a));
 }
