@@ -349,14 +349,16 @@ String.prototype.lizcap = function() {
 }
 
 // python things
-function str(inp)
-{
+function str(inp){
 	return inp.toString()
 }
 
-function int(inp)
-{
+function int(inp){
 	return parseInt(inp)
+}
+
+function float(inp){
+	return parseFloat(inp)
 }
 
 
@@ -424,8 +426,9 @@ function range(start, stop, step)
 }
 
 
-
-
+/*
+https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
+*/
 // deletes duplicates from given array
 function liz3_rmdupli(a) {
    return Array.from(new Set(a));
