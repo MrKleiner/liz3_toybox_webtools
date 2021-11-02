@@ -83,7 +83,7 @@ function liz3_getObjects(obj, key, val) {
       for (var i in obj) {
           if (!obj.hasOwnProperty(i)) continue;
           if (typeof obj[i] == 'object') {
-              objects = objects.concat(getObjects(obj[i], key, val));    
+              objects = objects.concat(liz3_getObjects(obj[i], key, val));    
           } else 
           //if key matches and value matches or if key matches and value is not passed (eliminating the case where key matches but passed value does not)
           if (i == key && obj[i] == val || i == key && val == '') { //
@@ -105,7 +105,7 @@ function liz3_getObjects(obj, key, val) {
       for (var i in obj) {
           if (!obj.hasOwnProperty(i)) continue;
           if (typeof obj[i] == 'object') {
-              objects = objects.concat(getValues(obj[i], key));
+              objects = objects.concat(liz3_getValues(obj[i], key));
           } else if (i == key) {
               objects.push(obj[i]);
           }
@@ -120,7 +120,7 @@ function liz3_getObjects(obj, key, val) {
       for (var i in obj) {
           if (!obj.hasOwnProperty(i)) continue;
           if (typeof obj[i] == 'object') {
-              objects = objects.concat(getKeys(obj[i], val));
+              objects = objects.concat(liz3_getKeys(obj[i], val));
           } else if (obj[i] == val) {
               objects.push(i);
           }
