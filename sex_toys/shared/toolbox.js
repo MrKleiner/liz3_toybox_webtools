@@ -3,14 +3,65 @@ class iguana
 {
 	// constructor(height, width) {
 	constructor() {
+
+
+		//
+		//	Python things
+		//
+
+
 		// capitalize string
 		String.prototype.capitalize = function() {
 			return this.charAt(0).toUpperCase() + this.slice(1);
 		}
-	}
+		String.prototype.lower = function() {
+			return this.toLowerCase()
+		}
+		String.prototype.upper = function() {
+			return this.toUpperCase()
+		}
+
+		String.prototype.zfill = function(amt=1, char='0') {
+		    var pad_char = typeof char !== 'undefined' ? char : '0';
+		    var pad = new Array(1 + amt).join(pad_char);
+		    return (pad + this).slice(-pad.length);
+		}
+
+		Number.prototype.zfill = function(amt=1, char='0') {
+		    var pad_char = typeof char !== 'undefined' ? char : '0';
+		    var pad = new Array(1 + amt).join(pad_char);
+		    return (pad + this).slice(-pad.length);
+		}
+
+
+		// python things
+
+		function str(inp){
+			// return inp.toString()
+			try {
+				let shite = inp.toString();
+				return shite
+			} catch (error) {
+				return '' + inp
+			}
+		}
+		window.str = str
+
+		function int(inp){
+			return parseInt(inp)
+		}
+		window.int = int
+
+		function float(inp){
+			return parseFloat(inp)
+		}
+		window.float = float
+	};
+
 	get info() {
 		return `Lizard's toybox. Version 0.32`
-	}
+	};
+
 
 	/*
 	get help() {
@@ -563,157 +614,95 @@ class iguana
 	}
 
 
-}
-window.lizard = new iguana();
 
 
 
-// beware: this wont stfu til it finds what it's looking for
-// check whether element exists or not.
-// todo: improve functionality
-// insert a selector with no $
-// todo: make it work like client state on change in XMLHttpRequest
-/*
-function liz3_mviewfinder(search_what, trigger_func, interval)
-{
-	if (typeof search_what == 'undefined' || typeof trigger_func == 'undefined' || typeof interval == 'undefined' || isNaN(interval) )
+
+
+
+
+
+
+
+
+
+
+
+	// ============================================================
+	// ============================================================
+	// 					Other
+	// ============================================================
+	// ============================================================
+
+	// beware: this wont stfu til it finds what it's looking for
+	// check whether element exists or not.
+	// todo: improve functionality
+	// insert a selector with no $
+	// todo: make it work like client state on change in XMLHttpRequest
+	/*
+	function liz3_mviewfinder(search_what, trigger_func, interval)
 	{
-		console.log('liz3 viewfinder bad arguments !')
-	}else{
-		let greet = function(){
-			console.log('Howdy!');
-			console.log(interval);
+		if (typeof search_what == 'undefined' || typeof trigger_func == 'undefined' || typeof interval == 'undefined' || isNaN(interval) )
+		{
+			console.log('liz3 viewfinder bad arguments !')
+		}else{
+			let greet = function(){
+				console.log('Howdy!');
+				console.log(interval);
 
+				if ($(search_what).length < 1)
+				{
+					setTimeout(greet, interval);
+				}else{
+					console.log('found_shit');
+					trigger_func()
+				}
+			};
+			
 			if ($(search_what).length < 1)
 			{
 				setTimeout(greet, interval);
-			}else{
-				console.log('found_shit');
-				eval(trigger_func)()
 			}
-		};
-		
-		if ($(search_what).length < 1)
-		{
-			setTimeout(greet, interval);
 		}
+
 	}
-
-}
-*/
+	*/
 
 
-
-// sort elements ( broken )
-// what - elem to sort, pseudo selector
-// where - container where elem is, selector
-// how - asc for ascending and desc for descending
-// selector for number source
-// todo: The way this could possibly work: Generate array, sort it and then append from it back to target
-/*
-function sorter_snorter(what, where, by, how)
-{
-	where.each(function(){
-		$(this).html(
-			$(this).find(what)).sort(function(a, b) {
-				eval(`
-				let dsa = parseInt($(a).eq(0).` + by + `),
-					dsb = parseInt($(b).eq(0).` + by + `);
-				`);
-				console.log(how)
-				if (how == 'asc')
-				{
-					return (dsa > dsb ? -1 : (dsa > dsb) ? 1 : 0);
-				}
-				if (how == 'desc')
-				{
-					return (dsa < dsb ? -1 : (dsa < dsb) ? 1 : 0);
-				}
-
-			})
-	});
-}
-*/
-
-
-
-
-
-/*
-function liz3_checkCookie() {
-  let user = getCookie('username');
-  if (user != '') {
-	alert('Welcome again ' + user);
-  } else {
-	user = prompt('Please enter your name:', '');
-	if (user != '' && user != null) {
-	  setCookie('username', user, 365);
-	}
-  }
-}
-*/
-
-
-// load user script
-// specify what script to load
-// (link to .js)
-// beware of gayshit CORS policy.
-/*
-function liz3_load_dasboat(uscript)
-{
-	// $('body').append('<div>loaded shit</div>')
-	function success()
+	// load user script
+	// specify what script to load
+	// (link to .js)
+	// beware of gayshit CORS policy.
+	/*
+	function liz3_load_dasboat(uscript)
 	{
-		// var $ = window.jQuery;
-		console.log('liz3_loaded_userscript');
-		// $('body').append('<div>loaded shit</div>');
+		// $('body').append('<div>loaded shit</div>')
+		function success()
+		{
+			// var $ = window.jQuery;
+			console.log('liz3_loaded_userscript');
+			// $('body').append('<div>loaded shit</div>');
+		}
+		var startingTime = new Date().getTime();
+		// Load the script
+		var script = document.createElement('SCRIPT');
+		script.src = uscript;
+		script.type = 'text/javascript';
+		script.onload = function() {
+			// var $ = window.jQuery;
+			$(function() {
+				var endingTime = new Date().getTime();
+				var tookTime = endingTime - startingTime;
+				console.log('l3UScript loaded in ' + tookTime + ' milliseconds');
+				// $('body').append('<div>loaded shit</div>')
+			});
+		};
+		document.getElementsByTagName('head')[0].appendChild(script);
 	}
-	var startingTime = new Date().getTime();
-	// Load the script
-	var script = document.createElement('SCRIPT');
-	script.src = uscript;
-	script.type = 'text/javascript';
-	script.onload = function() {
-		// var $ = window.jQuery;
-		$(function() {
-			var endingTime = new Date().getTime();
-			var tookTime = endingTime - startingTime;
-			console.log('l3UScript loaded in ' + tookTime + ' milliseconds');
-			// $('body').append('<div>loaded shit</div>')
-		});
-	};
-	document.getElementsByTagName('head')[0].appendChild(script);
+	*/
+
+
 }
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-// python things
-/*
-function str(inp){
-	return inp.toString()
-}
-
-function int(inp){
-	return parseInt(inp)
-}
-
-function float(inp){
-	return parseFloat(inp)
-}
-*/
-
-
-
+window.lizard = new iguana();
 
 
