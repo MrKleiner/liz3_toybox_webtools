@@ -859,6 +859,61 @@ class iguana
 
 
 
+	// ============================================================
+	// ============================================================
+	// 				Delete nth character from a string
+	// ============================================================
+	// ============================================================
+
+	// st - input string OR array
+	// nth - every n character
+	// use - if set to true, will return every n character
+	// if set to false or not set, will return a string with every n character deleted
+	// smartass: Works with arrays too
+	delnthchar(st, nth, use)
+	{
+		if (st.toString() == ''){ return ''}
+
+		if (Array.isArray(st))
+		{
+			var todel = st;
+		}else{
+			var todel = st.toString().split('');
+		}
+
+		var nthc = 1
+		var delres = []
+		for (var count in todel)
+		{
+			if (use)
+			{
+				if (nthc != nth)
+				{
+					nthc += 1
+				}else{
+					delres.push(todel[count])
+					var nthc = 1
+				}
+			}else{
+				if (nthc != nth)
+				{
+					delres.push(todel[count])
+					nthc += 1
+				}else{
+					var nthc = 1
+				}
+			}
+		}
+		return delres.join('')
+	}
+
+
+
+
+
+
+
+
 
 
 
