@@ -725,13 +725,13 @@ class iguana
 
 
 	// quick string encoding
-	b64EncodeUnicode(str) {
-	    return btoa(encodeURIComponent(str));
-	};
-
-	UnicodeDecodeB64(str) {
-	    return decodeURIComponent(atob(str));
-	};
+	u8btoa(st) {
+	    return btoa(unescape(encodeURIComponent(st)));
+	}
+	// decode
+	u8atob(st) {
+	    return decodeURIComponent(escape(atob(st)));
+	}
 
 
 
