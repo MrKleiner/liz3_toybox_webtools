@@ -59,6 +59,36 @@ class iguana
 			return parseFloat(inp)
 		}
 		window.float = float
+
+		// python-like range()
+		function* range(start=0, stop=null, step=1)
+		{
+			if (stop == null){
+				stop = start
+				start = 0
+			}
+			try {
+				start = parseInt(start)
+				stop = parseInt(stop)
+				step = parseInt(step)
+			} catch (error) {
+				return []
+			}
+			
+			// var tgt_result = []
+			// var eligible = true
+			while (true) {
+				if (start >= stop){
+					return
+					break
+				}
+				// tgt_result.push(start)
+				yield start
+				start += step
+			}
+		}
+		window.range = range
+
 	};
 
 	get info() {
@@ -745,95 +775,6 @@ class iguana
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// ============================================================
-	// ============================================================
-	// 							Python-like range()
-	// ============================================================
-	// ============================================================
-
-	// python-like range()
-	range(start=0, stop=17, step=1)
-	{
-		var star = start;
-		var sto = stop;
-		var ste = step;
-		var motd = 'python range iterator error: strings are not allowed';
-		// todo: this is some next-level retarded fucking shit
-		// I really deserve to die in terrifying agony of a big xenomorph eating me alive for doing such fucking shit.
-		if (typeof start == 'undefined' && typeof stop == 'undefined' && typeof step == 'undefined' )
-		{
-			console.log('python range iterator error: no arguments given');
-			return []
-		}
-		if ( typeof start != 'undefined' && isNaN(parseInt(start)) )
-		{
-			console.log(motd)
-			return []
-		}
-		if ( typeof stop != 'undefined' && isNaN(parseInt(stop)) )
-		{
-			console.log(motd)
-			return []
-		}
-		if ( typeof step != 'undefined' && isNaN(parseInt(step)) )
-		{
-			console.log(motd)
-			return []
-		}
-
-		if (typeof start != 'undefined' && typeof stop == 'undefined' && typeof step == 'undefined' )
-		{
-			var sto = parseInt(start);
-		}
-		if ( typeof stop != 'undefined' )
-		{
-			var sto = parseInt(stop);
-			var star = parseInt(start);
-		}
-		if ( typeof step != 'undefined' )
-		{
-			var ste = parseInt(step)
-		}
-		if ( parseInt(start) > 9999999 || parseInt(stop) > 9999999 )
-		{
-			console.log('python range invalid range: value too high');
-			return []
-		}
-		
-		var tgt_result = []
-		var eligible = true
-		while (eligible) {
-			if (star < sto)
-			{
-				tgt_result.push(star)
-				star += ste
-			}else{
-				return tgt_result
-			}
-		}
-	}
 
 
 
