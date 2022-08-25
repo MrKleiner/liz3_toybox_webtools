@@ -776,10 +776,10 @@ class iguana
 	// python-like range()
 	range(start=0, stop=17, step=1)
 	{
-		// var star = 0;
-		// var sto = 17;
-		// var ste = 1;
-		motd = 'python range iterator error: strings are not allowed';
+		var star = start;
+		var sto = stop;
+		var ste = step;
+		var motd = 'python range iterator error: strings are not allowed';
 		// todo: this is some next-level retarded fucking shit
 		// I really deserve to die in terrifying agony of a big xenomorph eating me alive for doing such fucking shit.
 		if (typeof start == 'undefined' && typeof stop == 'undefined' && typeof step == 'undefined' )
@@ -805,16 +805,16 @@ class iguana
 
 		if (typeof start != 'undefined' && typeof stop == 'undefined' && typeof step == 'undefined' )
 		{
-			sto = parseInt(start);
+			var sto = parseInt(start);
 		}
 		if ( typeof stop != 'undefined' )
 		{
-			sto = parseInt(stop);
-			star = parseInt(start);
+			var sto = parseInt(stop);
+			var star = parseInt(start);
 		}
 		if ( typeof step != 'undefined' )
 		{
-			ste = parseInt(step)
+			var ste = parseInt(step)
 		}
 		if ( parseInt(start) > 9999999 || parseInt(stop) > 9999999 )
 		{
@@ -822,8 +822,8 @@ class iguana
 			return []
 		}
 		
-		tgt_result = []
-		eligible = true
+		var tgt_result = []
+		var eligible = true
 		while (eligible) {
 			if (star < sto)
 			{
