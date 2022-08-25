@@ -534,7 +534,6 @@ class iguana
 
 
 
-
 	// ============================================================
 	// ============================================================
 	// 							Smart encode/decode
@@ -765,11 +764,11 @@ class iguana
 	// ============================================================
 
 	// python-like range()
-	range(start, stop, step)
+	range(start=0, stop=17, step=1)
 	{
-		star = 0;
-		sto = 17;
-		ste = 1;
+		// var star = 0;
+		// var sto = 17;
+		// var ste = 1;
 		motd = 'python range iterator error: strings are not allowed';
 		// todo: this is some next-level retarded fucking shit
 		// I really deserve to die in terrifying agony of a big xenomorph eating me alive for doing such fucking shit.
@@ -861,7 +860,7 @@ class iguana
 
 	// ============================================================
 	// ============================================================
-	//       evaluate html should be faster than jQuery
+	//       evaluate html. Should be a little faster than jQuery
 	// ============================================================
 	// ============================================================
 
@@ -891,8 +890,7 @@ class iguana
 	{
 		if (st.toString() == ''){ return ''}
 
-		if (Array.isArray(st))
-		{
+		if (Array.isArray(st)){
 			var todel = st;
 		}else{
 			var todel = st.toString().split('');
@@ -902,18 +900,15 @@ class iguana
 		var delres = []
 		for (var count in todel)
 		{
-			if (use)
-			{
-				if (nthc != nth)
-				{
+			if (use){
+				if (nthc != nth){
 					nthc += 1
 				}else{
 					delres.push(todel[count])
 					var nthc = 1
 				}
 			}else{
-				if (nthc != nth)
-				{
+				if (nthc != nth){
 					delres.push(todel[count])
 					nthc += 1
 				}else{
