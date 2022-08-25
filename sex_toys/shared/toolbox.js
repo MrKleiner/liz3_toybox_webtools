@@ -62,7 +62,7 @@ class iguana
 	};
 
 	get info() {
-		return `Lizard's toybox. Version 0.32`
+		return `Lizard's toybox. Version 0.37`
 	};
 
 
@@ -720,6 +720,16 @@ class iguana
 
 	  return aBytes;
 
+	}
+
+	btoa(st=''){
+		if (st==''){return ''}
+		return base64EncArr(this.strToUTF8Arr(st))
+	}
+
+	atob(st=''){
+		if (st==''){return ''}
+		return UTF8ArrToStr(this.base64DecToArr(st))
 	}
 
 
