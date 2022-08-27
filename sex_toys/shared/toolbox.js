@@ -187,6 +187,7 @@ class iguana
 
 	// goes through the entirety of a json object and returns whatever it found
 
+	// sadly, recursive
 
 
 
@@ -228,7 +229,7 @@ class iguana
 		  for (var i in obj) {
 			  if (!obj.hasOwnProperty(i)) continue;
 			  if (typeof obj[i] == 'object') {
-				  objects = objects.concat(find_objects(obj[i], key, val));    
+				  objects = objects.concat(this.find_objects(obj[i], key, val));    
 			  } else 
 			  //if key matches and value matches or if key matches and value is not passed (eliminating the case where key matches but passed value does not)
 			  if (i == key && obj[i] == val || i == key && val == '') { //
@@ -250,7 +251,7 @@ class iguana
 		  for (var i in obj) {
 			  if (!obj.hasOwnProperty(i)) continue;
 			  if (typeof obj[i] == 'object') {
-				  objects = objects.concat(find_values(obj[i], key));
+				  objects = objects.concat(this.find_values(obj[i], key));
 			  } else if (i == key) {
 				  objects.push(obj[i]);
 			  }
@@ -265,7 +266,7 @@ class iguana
 		  for (var i in obj) {
 			  if (!obj.hasOwnProperty(i)) continue;
 			  if (typeof obj[i] == 'object') {
-				  objects = objects.concat(find_keys(obj[i], val));
+				  objects = objects.concat(this.find_keys(obj[i], val));
 			  } else if (obj[i] == val) {
 				  objects.push(i);
 			  }
@@ -303,7 +304,8 @@ class iguana
 	// ============================================================
 
 	// it's actually extremely fucking bad from technical point of view
-
+	// but it's fast enough to generate very long strings
+	// and then generate hash our of them
 
 	// proper random shit
 	// methods: 
@@ -389,7 +391,7 @@ class iguana
 
 	cookie_set(cname, cvalue, exdays) {
 		if ( typeof cname == 'undefined' || cvalue == 'undefined' || exdays == 'undefined' ) {
-			console.log(`lizard\'s biscuits lack chocolate!`)
+			console.log(`lizard's biscuits lack chocolate!`)
 			return
 		}
 		const d = new Date();
@@ -418,13 +420,25 @@ class iguana
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 	// ============================================================
 	// ============================================================
 	// 							text getter
 	// ============================================================
 	// ============================================================
 
-	// set cookies. from https://www.w3schools.com/js/js_cookies.asp
+	// smart recursive text getter
 
 	imtext(nd) {
 		var element = nd, text = '';
@@ -462,10 +476,8 @@ class iguana
 	// ============================================================
 	// ============================================================
 
-
 	// copy smth to ctrl+c
-	copytext(l3text)
-	{
+	copytext(l3text){
 		var $temp = $('<input style="opacity: 0;position: absolute;">');
 		$('body').append($temp);
 		$temp.val(l3text).select();
@@ -564,9 +576,11 @@ class iguana
 
 
 
+
+
 	// ============================================================
 	// ============================================================
-	// 							Smart encode/decode
+	// 						Smart encode/decode
 	// ============================================================
 	// ============================================================
 
@@ -791,6 +805,8 @@ class iguana
 
 
 
+
+
 	// ============================================================
 	// ============================================================
 	// 					remove duplicates from an array
@@ -809,6 +825,19 @@ class iguana
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 	// ============================================================
 	// ============================================================
 	//       evaluate html. Should be a little faster than jQuery
@@ -821,6 +850,18 @@ class iguana
 		shit.innerHTML = s
 		return shit.children[0]
 	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -887,6 +928,87 @@ class iguana
 
 
 
+	// ============================================================
+	// ============================================================
+	// 				Check if arrays have identical elements
+	// ============================================================
+	// ============================================================
+
+	// returns true if an array contains any element which is not present in another array
+	// inwhat - array to check against
+	// what - input array
+	array_is_same(what=[], inwhat=[], return_elems=false) {
+	    var magix = what.filter(f => !inwhat.includes(f));
+	    if (return_elems == true){
+	    	return magix
+	    }else{
+	    	return magix.length > 0
+	    }
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// ============================================================
+	// ============================================================
+	// 					base64 to image blob
+	// ============================================================
+	// ============================================================
+
+	// takes raw base64 string and converts it to imageurl
+	b64toimg(b64='', imgtype='*'){
+		if (b64 == ''){return null}
+		var bytes = this.base64DecToArr(b64)
+		var blob = new Blob([bytes], {type: `image/${imgtype}`});
+		var imageUrl = (window.URL || window.webkitURL).createObjectURL(blob);
+		return imageUrl
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// ============================================================
 	// ============================================================
@@ -894,47 +1016,13 @@ class iguana
 	// ============================================================
 	// ============================================================
 
-	// beware: this wont stfu til it finds what it's looking for
-	// check whether element exists or not.
-	// todo: improve functionality
-	// insert a selector with no $
-	// todo: make it work like client state on change in XMLHttpRequest
-	/*
-	function liz3_mviewfinder(search_what, trigger_func, interval)
-	{
-		if (typeof search_what == 'undefined' || typeof trigger_func == 'undefined' || typeof interval == 'undefined' || isNaN(interval) )
-		{
-			console.log('liz3 viewfinder bad arguments !')
-		}else{
-			let greet = function(){
-				console.log('Howdy!');
-				console.log(interval);
-
-				if ($(search_what).length < 1)
-				{
-					setTimeout(greet, interval);
-				}else{
-					console.log('found_shit');
-					trigger_func()
-				}
-			};
-			
-			if ($(search_what).length < 1)
-			{
-				setTimeout(greet, interval);
-			}
-		}
-
-	}
-	*/
-
 
 	// load user script
 	// specify what script to load
 	// (link to .js)
 	// beware of gayshit CORS policy.
 	/*
-	function liz3_load_dasboat(uscript)
+	function load_dasboat(uscript)
 	{
 		// $('body').append('<div>loaded shit</div>')
 		function success()
