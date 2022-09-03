@@ -353,7 +353,7 @@ class iguana
 		
 		var charactersLength = characters.length;
 		for ( var i = 0; i < len; i++ ) {
-		  result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		  result += characters.charAt(Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] * charactersLength));
 	   }
 	   return result;
 	}
