@@ -30,16 +30,16 @@ class iguana
 			return (pad + this).slice(-pad.length);
 		}
 
-		String.prototype.rstrip = function(st='', chars='') {
+		String.prototype.rstrip = function(chars='') {
 			var start = 0;
-			var end = st.length - 1;
-			while (chars.indexOf(st[end]) >= 0) {
+			var end = this.length - 1;
+			while (chars.indexOf(this[end]) >= 0) {
 			end -= 1;
 			}
-			return st.substr(0, end + 1);
+			return this.substr(0, end + 1);
 		}
 
-		String.prototype.lstrip = function(st='', chars='') {
+		String.prototype.lstrip = function(chars='') {
 			var start = 0;
 			while (chars.indexOf(x[start]) >= 0) {
 			start += 1;
@@ -48,16 +48,16 @@ class iguana
 			return x.substr(start);
 		}
 
-		String.prototype.strip = function(st='', chars='') {
+		String.prototype.strip = function(chars='') {
 			var start = 0;
-			while (chars.indexOf(st[start]) >= 0) {
+			while (chars.indexOf(this[start]) >= 0) {
 			start += 1;
 			}
-			var end = st.length - 1;
-			while (chars.indexOf(st[end]) >= 0) {
+			var end = this.length - 1;
+			while (chars.indexOf(this[end]) >= 0) {
 			end -= 1;
 			}
-			return st.substr(start, end - start + 1);
+			return this.substr(start, end - start + 1);
 		}
 
 		// Number.prototype.zfill = function(amt=1, char='0') {
