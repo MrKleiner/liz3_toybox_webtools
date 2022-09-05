@@ -30,11 +30,39 @@ class iguana
 			return (pad + this).slice(-pad.length);
 		}
 
-		Number.prototype.zfill = function(amt=1, char='0') {
-			var pad_char = typeof char !== 'undefined' ? char : '0';
-			var pad = new Array(1 + amt).join(pad_char);
-			return (pad + this).slice(-pad.length);
+		String.prototype.rstrip = function(st='', chars='') {
+			var start = 0;
+			var end = st.length - 1;
+			while (chars.indexOf(st[end]) >= 0) {
+			end -= 1;
+			}
+			return st.substr(0, end + 1);
 		}
+
+		String.prototype.lstrip = function(st='', chars='') {
+			var start = 0;
+			while (chars.indexOf(x[start]) >= 0) {
+			start += 1;
+			}
+			var end = x.length - 1;
+			return x.substr(start);
+		}
+
+		String.prototype.strip = function(st='', chars='') {
+			var start = 0;
+			while (chars.indexOf(st[start]) >= 0) {
+			start += 1;
+			}
+			var end = st.length - 1;
+			while (chars.indexOf(st[end]) >= 0) {
+			end -= 1;
+			}
+			return st.substr(start, end - start + 1);
+		}
+
+		// Number.prototype.zfill = function(amt=1, char='0') {
+		// 	return num < 10 ? '0' + num : num;
+		// }
 
 
 		// python things
