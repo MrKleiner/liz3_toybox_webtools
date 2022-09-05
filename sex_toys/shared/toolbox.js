@@ -355,7 +355,7 @@ class iguana
 	*/
 
 
-	rndwave(len=8, method='def', addchars='', crypto=true) {
+	rndwave(len=8, method='def', addchars='', crypto=false) {
 		var result = '';
 
 		var addon_chars = addchars.toString().replaceAll(' ', '');
@@ -380,9 +380,12 @@ class iguana
 		}
 		
 		var charactersLength = characters.length;
+        if (crypto == true){
+            var cryptonums = window.crypto.getRandomValues(new Uint16Array(len + 1))
+        }
 		for ( var i = 0; i < len; i++ ) {
             if (crypto == true){
-                result += characters.charAt(window.crypto.getRandomValues(new Uint32Array(1))[0] % charactersLength);
+                result += characters.charAt(cryptonums[i] % charactersLength);
             }else{
                 result += characters.charAt(Math.floor(Math.random() * charactersLength));
             }
