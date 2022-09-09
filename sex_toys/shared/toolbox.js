@@ -7,6 +7,8 @@ class iguana
 	// constructor(height, width) {
 	constructor() {
 
+		this.gigastorage = {}
+		this.gigastorage.waiters = {}
 
 		//
 		//	Python things
@@ -909,6 +911,77 @@ class iguana
 		shit.innerHTML = s
 		return shit.children[0]
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+	// ============================================================
+	// ============================================================
+	//       		await for an element of a page...
+	// ============================================================
+	// ============================================================
+
+	// takes selector as an input
+	// and a name
+	async wait_elem(sel=null, identify=null)
+	{
+		if (sel == null){return false}
+		var thy = this;
+		const save_sel = sel;
+		var me = identify || this.rndwave(32, 'def').replaceAll('-', '').replaceAll('_', '')
+
+		var waiter = {
+			'name': me,
+			wait: function(){
+				return new Promise(function(resolve, reject){
+					const mysel = save_sel;
+					let config = { attributes: true, childList: true, subtree: true };
+					let callback = (mutationList, observer) => {
+						var try_search = document.querySelector(mysel)
+						if (try_search != null){
+							resolve(try_search)
+						}
+					};
+
+					var obsr = new MutationObserver(callback);
+					observer.observe(document.body, config);
+
+					thy.gigastorage.waiters[me] = obsr
+				});
+			},
+			abort: function(){
+				thy.gigastorage.waiters[me].disconnect();
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
