@@ -931,7 +931,7 @@ class iguana
 
 	// takes selector as an input
 	// and a name
-	async wait_elem(sel=null, identify=null)
+	wait_elem(sel=null, identify=null)
 	{
 		if (sel == null){return false}
 		var thy = this;
