@@ -947,6 +947,7 @@ class iguana
 					let callback = (mutationList, observer) => {
 						var try_search = document.querySelector(mysel)
 						if (try_search != null){
+							observer.disconnect()
 							resolve(try_search)
 						}
 					};
