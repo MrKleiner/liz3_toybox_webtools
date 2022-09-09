@@ -952,7 +952,7 @@ class iguana
 					};
 
 					var obsr = new MutationObserver(callback);
-					observer.observe(document.body, config);
+					obsr.observe(document.body, config);
 
 					thy.gigastorage.waiters[me] = obsr
 				});
