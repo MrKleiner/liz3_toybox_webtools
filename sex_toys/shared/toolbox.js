@@ -961,6 +961,8 @@ class iguana
 				thy.gigastorage.waiters[me].disconnect();
 			}
 		}
+
+		return waiter
 	}
 
 
