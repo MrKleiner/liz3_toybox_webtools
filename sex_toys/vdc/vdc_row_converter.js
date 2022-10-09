@@ -1,42 +1,51 @@
 // ==UserScript==
 // @name         vdc pre code block converter
 // @namespace    http://tampermonkey.net/
-// @version      0.17
-// @description  try to take over the pootis!
+// @version      1.27
+// @description  Convert solid <pre> blocks on Valve Developer Community into nice rows.
 // @author       MrKleiner
+// @require      https://raw.githubusercontent.com/MrKleiner/liz3_toybox_webtools/main/sex_toys/shared/toolbox.js
 // @match        https://developer.valvesoftware.com/wiki/*
 // @icon         https://www.google.com/s2/favicons?domain=valvesoftware.com
 // @grant        none
+// @run-at       document-end
 // ==/UserScript==
 
-function defer(method) {
-    if (window.jQuery) {
-        weready();
-    } else {
-        setTimeout(function() { defer(method) }, 100);
-    }
-}
 
-defer();
 
-function weready()
+window.sternennacht = function()
 {
-    $('#p-tb ul').append('<li><a id="call_pre_converter">Convert pre blocks</a></li>');
-    $("#call_pre_converter").click(function(e){
-        $(this).closest('li').remove();
-        make_rows_hover();
-    });
+	document.body.append(lizard.ehtml(`
+		<style>
+			.liz3_vdc_line:hover
+			{
+				background: linear-gradient(0deg,rgba(0,0,0,.08) 0,rgba(0,0,0,.08) 100%);
+			};
+		</style>
+	`.replaceAll('\n', '')));
+
+	// go through every <pre> block
+	for (var pre of document.querySelectorAll('.mw-parser-output pre')){
+		// The content of every pre block is simply a bunch of text with line breaks
+		// Split this text at line breaks and for every resulting entry
+		// append this line as an html element
+		// obviously, clearing the insides of the <pre> block prior to that
+		const entries = pre.innerText.split('\n');
+		pre.innerHTML = '';
+		for (var sex of entries){
+			pre.append(lizard.ehtml(`<div class="liz3_vdc_line">${sex}</div>`));
+		}
+	}
 }
 
-function make_rows_hover()
-{
-    $('body').append('<style>.liz3_vdc_line:hover{background:linear-gradient(0deg,rgba(0,0,0,.08) 0,rgba(0,0,0,.08) 100%)}</style>');
-    $('.mw-parser-output pre').each(function(){
-        var local_cont = $(this);
-        var local_shit = $(this).text().split('\n');
-        $(this).text('');
-        for (var key in local_shit) {
-            $(local_cont).append('<div class="liz3_vdc_line">' + local_shit[key] + '</div>');
-        }
-    });
-}
+
+var bdsm = lizard.wait_elem('#p-tb ul');
+
+bdsm.wait()
+.then(function(response) {
+	document.querySelector('#p-tb ul').append(lizard.ehtml(`
+		<li><a onclick="this.remove();window.sternennacht()" id="call_pre_converter">Convert pre blocks</a></li>
+	`));
+});
+
+

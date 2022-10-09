@@ -1,1 +1,0 @@
-"C:\custom\python\python_3_8_9\python.exe" release_compiler.py
