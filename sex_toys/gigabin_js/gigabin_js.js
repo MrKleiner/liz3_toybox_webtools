@@ -56,11 +56,12 @@ class gigabin
 					throw 'invalid header'
 				}
 			} catch (error) {
+				console.log(error)
 				throw 'Given data structure does not represent a valid gigabin format'
 			}
 
 			// get header size
-			const head_size = int(this.UTF8ArrToStr(operate.slice(7, 7+32)))
+			const head_size = parseInt(this.UTF8ArrToStr(operate.slice(7, 7+32)).replaceAll('!', ''))
 
 			// read header
 			const json_piece = operate.slice(operate.length - head_size, operate.length);
@@ -104,7 +105,7 @@ class gigabin
 		const chunk_info = this.header['stores'][name]['bits'];
 
 		// if file exists, then read it
-		const chunk = new Uint8Array(this.bin.slice(chunk_info[0], chunk_info[1]));
+		const chunk = new Uint8Array(this.bin.slice(chunk_info[0], chunk_info[0] + chunk_info[1]));
 
 		if (read_as == 'buffer'){
 			return chunk
@@ -171,13 +172,16 @@ class gigabin
 		const store = this.header['stores'];
 
 		// don't do shit if file exists, but overwrite is set to false
-		if (store[info['name']] || info['overwrite'] != true){
-			console.log('gigabin: File exists in the file pool, but overwrite is set to false');
+		if (store[info['name']] && info['overwrite'] != true){
+			console.warn('gigabin: File exists in the file pool, but overwrite is set to false');
 			return null
 		}
 
+		// else - overwrite
+		this.delete_file(info['name'])
+
 		// 
-		// First, convert to appropriate type
+		// First, convert to an appropriate type
 		//
 
 		var bindata = info['data'];
@@ -197,9 +201,9 @@ class gigabin
 		];
 
 		const type_string = [
-			bindata instanceof String,
-			bindata instanceof Number,
-			bindata instanceof Boolean
+			typeof bindata == 'string',
+			typeof bindata == 'number',
+			typeof bindata == 'boolean'
 		];
 
 		const type_json = [
@@ -209,19 +213,19 @@ class gigabin
 
 		// check if any valid data is present
 		if (!type_buffer.includes(true) && !type_string.includes(true) && !type_json.includes(true)){
-			console.log('gigabin: unsupported data type')
+			console.warn('gigabin: unsupported data type')
 			return null
 		}
 
 		bindata = (
 			// prioritise buffers
-			(type_buffer.includes(true) ? (new Uint8Array(type_buffer)) : false)
+			(type_buffer.includes(true) ? (new Uint8Array(bindata)) : false)
 			||
 			// then strings and numbers
-			(type_string.includes(true) ? (this.strToUTF8Arr(this.str(type_string))) : false)
+			(type_string.includes(true) ? (this.strToUTF8Arr(this.str(bindata))) : false)
 			||
 			// lastly, try to dump jsons
-			(type_json.includes(true) ? (this.strToUTF8Arr(JSON.stringify(type_json))) : false)
+			(type_json.includes(true) ? (this.strToUTF8Arr(JSON.stringify(bindata))) : false)
 		);
 
 		this.header['stores'][info['name']] = {
@@ -230,6 +234,33 @@ class gigabin
 		}
 
 		this.bin = this.bin.concat(Array.from(bindata));
+	};
+
+
+	delete_file(name=null){
+		if (!name || !this.header['stores'][name]){
+			// console.log('gigabin: Tried to delete non-existent file')
+			return null
+		}
+
+		delete this.header['stores'][name]
+
+		var head = this.header['stores'];
+
+		var new_buffer = [];
+
+		// re-append everything except the requested name
+		for (rewrite in head){
+			var chunk_info = head[rewrite]['bits'];
+			const new_chunk = this.bin.slice(this.bin.slice(chunk_info[0], chunk_info[0] + chunk_info[1]))
+			head[rewrite]['bits'] = [new_buffer.length, new_chunk.length]
+			new_buffer = new_buffer.concat(new_chunk)
+		}
+
+		// re-save bin
+		this.bin = new_buffer;
+
+		return true
 	};
 
 
@@ -247,8 +278,19 @@ class gigabin
 		// todo: finally fix atob and btoa
 		const giga_head = this.base64EncArr(this.strToUTF8Arr(JSON.stringify(this.header)))
 
-		// write padded header
-		giga_data = giga_data.concat(Array.from(this.strToUTF8Arr(this.zfill(giga_head, 32, '!'))))
+		// write padded header size
+		giga_data = giga_data.concat(Array.from(this.strToUTF8Arr(this.zfill(giga_head.length.toString(), 32, '!'))))
+
+		// write data
+		giga_data = giga_data.concat(this.bin)
+
+		// write header
+		giga_data = giga_data.concat(Array.from(this.strToUTF8Arr(giga_head)))
+
+		console.log('header', giga_head)
+
+		// dev: return buffer
+		return this.base64EncArr(new Uint16Array(giga_data))
 	}
 
 
