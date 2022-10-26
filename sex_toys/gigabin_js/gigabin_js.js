@@ -8,7 +8,12 @@ class gigabin
 	
 	// either takes ArrayBuffer or nothing
 	// nothing means create empty gigabin
+	// todo: also accept blobs
+	// isntanceof Blob
 	constructor(src=null) {
+
+		this.giga_identifier = 'gigachad';
+		this.giga_len = this.giga_identifier.length
 
 		this.str = function(inp){
 			// return inp.toString()
@@ -50,18 +55,19 @@ class gigabin
 		if (accepted.includes(true)){
 			const operate = new Uint8Array(src);
 			// validate format
+			// todo: wtf
 			try {
-				console.log(this.UTF8ArrToStr(operate.slice(0, 7)))
-				if (this.UTF8ArrToStr(operate.slice(0, 7)) != 'gigabin'){
+				console.log(this.UTF8ArrToStr(operate.slice(0, this.giga_len)))
+				if (this.UTF8ArrToStr(operate.slice(0, this.giga_len)) != this.giga_identifier){
 					throw 'invalid header'
 				}
 			} catch (error) {
-				console.log(error)
+				console.error(error);
 				throw 'Given data structure does not represent a valid gigabin format'
 			}
 
 			// get header size
-			const head_size = parseInt(this.UTF8ArrToStr(operate.slice(7, 7+32)).replaceAll('!', ''))
+			const head_size = parseInt(this.UTF8ArrToStr(operate.slice(this.giga_len, this.giga_len+32)).replaceAll('!', ''))
 
 			// read header
 			const json_piece = operate.slice(operate.length - head_size, operate.length);
@@ -74,7 +80,7 @@ class gigabin
 
 			// store bin
 			// store this as an array, because it has to be manipulated
-			this.bin = Array.from(operate.slice(7+32, operate.length - head_size));
+			this.bin = Array.from(operate.slice(this.giga_len+32, operate.length - head_size));
 
 		}else{
 			this.header = {
@@ -96,39 +102,83 @@ class gigabin
 	// json
 	// blob
 	// obj_url
+
+	// will read into array of given types if file is an array of files
+	// todo: write a generator of this
 	read_file(name=null, read_as='buffer'){
-		if (name == null || !this.header['stores'][name]){
+		const fl_info = this.header['stores'][name]
+		if (name == null || !fl_info){
 			console.log('giga bin: File does not exist in the binary');
 			return
 		}
 
-		const chunk_info = this.header['stores'][name]['bits'];
 
-		// if file exists, then read it
-		const chunk = new Uint8Array(this.bin.slice(chunk_info[0], chunk_info[0] + chunk_info[1]));
+		//
+		// Solid type file
+		//
+		if (fl_info['type'] == 'solid'){
+			const chunk_info = this.header['stores'][name]['bits'];
 
-		if (read_as == 'buffer'){
+			// if file exists, then read it
+			const chunk = this.read_bit(chunk_info, read_as);
+
 			return chunk
 		}
 
-		if (read_as == 'text'){
+
+		//
+		// Array type file
+		//
+		if (fl_info['type'] == 'array'){
+			var file_array = [];
+
+			for (var ch of fl_info['bits']){
+				file_array.push(this.read_bit(ch, read_as))
+			}
+
+			return file_array
+		}
+
+
+	};
+
+
+	// reads a given bit
+	// todo: error checks and margins
+	read_bit(bit=null, btype='buffer'){
+		if (!bit){return null}
+
+		// (regular array)
+		const chunk = this.bin.slice(bit[0], bit[0] + bit[1])
+
+		if (btype == 'array'){
+			return chunk
+		}
+
+		if (btype == 'buffer'){
+			return new Uint8Array(chunk)
+		}
+
+		if (btype == 'text'){
 			// todo: use try/catch
 			return this.UTF8ArrToStr(chunk)
 		}
 
-		if (read_as == 'json'){
+		if (btype == 'json'){
 			// todo: use try/catch
 			return JSON.parse(this.UTF8ArrToStr(chunk))
 		}
 
-		if (read_as == 'blob'){
+		if (btype == 'blob'){
 			return new Blob([chunk], {type: 'text/plain'});
 		}
 
-		if (read_as == 'obj_url'){
+		if (btype == 'obj_url'){
 			return (window.URL || window.webkitURL).createObjectURL(new Blob([chunk], {type: 'text/plain'}));
 		}
-	};
+
+		return chunk
+	}
 
 
 	// pass true for it to return an array instead of dict
@@ -162,7 +212,7 @@ class gigabin
 
 	// info should cointain:
 	// name: filename
-	// data: data to store
+	// data: data to store / pass empty array to init a new array
 	// overwrite: true/false
 	add_file(info=null){
 		if (!info){
@@ -272,7 +322,7 @@ class gigabin
 		var giga_data = [];
 
 		// write gigabin identifier
-		giga_data = giga_data.concat(Array.from(this.strToUTF8Arr('gigabin')))
+		giga_data = giga_data.concat(Array.from(this.strToUTF8Arr(this.giga_identifier)))
 
 		// compile header
 		// todo: finally fix atob and btoa
