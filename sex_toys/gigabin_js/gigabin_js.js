@@ -149,14 +149,14 @@ class gigabin
 		if (!bit){return null}
 
 		// (regular array)
-		const chunk = this.bin.slice(bit[0], bit[0] + bit[1])
+		const chunk = new Uint8Array(this.bin.slice(bit[0], bit[0] + bit[1]))
 
 		if (btype == 'array'){
 			return chunk
 		}
 
 		if (btype == 'buffer'){
-			return new Uint8Array(chunk)
+			return chunk
 		}
 
 		if (btype == 'text'){
@@ -170,11 +170,11 @@ class gigabin
 		}
 
 		if (btype == 'blob'){
-			return new Blob([chunk], {type: 'text/plain'});
+			return new Blob([chunk], {});
 		}
 
 		if (btype == 'obj_url'){
-			return (window.URL || window.webkitURL).createObjectURL(new Blob([chunk], {type: 'text/plain'}));
+			return (window.URL || window.webkitURL).createObjectURL(new Blob([chunk], {}));
 		}
 
 		return chunk
