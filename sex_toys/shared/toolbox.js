@@ -127,6 +127,28 @@ class iguana
 		}
 		window.range = range
 
+
+		//
+		// Other useful extensions
+		//
+
+		window.localStorage.__proto__.getObject = function(itemname){
+			const got_item = window.localStorage.getItem(itemname)
+			try {
+				return JSON.parse(got_item)
+			} catch (error) {
+				return got_item
+			}
+		}
+		window.localStorage.__proto__.setObject = function(itemname, itemval){
+			try {
+				window.localStorage.setItem(itemname, JSON.stringify(itemval))
+			} catch (error) {
+				window.localStorage.setItem(itemname, itemval)
+			}
+		}
+
+
 	};
 
 	get info() {
