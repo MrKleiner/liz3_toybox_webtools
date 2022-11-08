@@ -62,9 +62,33 @@ class iguana
 			return this.substr(start, end - start + 1);
 		}
 
+		//
+		// Other improvements
+		//
+
+		// clamp a number to min/max
 		Number.prototype.clamp = function(min, max) {
 			return Math.min(Math.max(this, min), max);
 		};
+
+		// extend url
+		// (window.URL || window.webkitURL).prototype.target = function(first_argument) {
+
+		// };
+
+
+		const identifier = window.URL ? 'URL' : 'webkitURL'
+		class more_url extends (window.URL || window.webkitURL){
+			get target(){
+				const sex = {
+					'name': this.pathname.split('/').at(-1),
+					'suffix': this.pathname.split('/').at(-1).split('.').at(-1)
+				}
+				return sex
+			}
+		}
+
+		window[identifier] = more_url
 
 		// Number.prototype.zfill = function(amt=1, char='0') {
 		// 	return num < 10 ? '0' + num : num;
