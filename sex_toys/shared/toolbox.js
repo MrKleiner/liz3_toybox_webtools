@@ -62,6 +62,10 @@ class iguana
 			return this.substr(start, end - start + 1);
 		}
 
+		Number.prototype.clamp = function(min, max) {
+			return Math.min(Math.max(this, min), max);
+		};
+
 		// Number.prototype.zfill = function(amt=1, char='0') {
 		// 	return num < 10 ? '0' + num : num;
 		// }
