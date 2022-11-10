@@ -36,7 +36,7 @@ class iguana
 			var start = 0;
 			var end = this.length - 1;
 			while (chars.indexOf(this[end]) >= 0) {
-			end -= 1;
+				end -= 1;
 			}
 			return this.substr(0, end + 1);
 		}
@@ -44,7 +44,7 @@ class iguana
 		String.prototype.lstrip = function(chars='') {
 			var start = 0;
 			while (chars.indexOf(x[start]) >= 0) {
-			start += 1;
+				start += 1;
 			}
 			var end = x.length - 1;
 			return x.substr(start);
@@ -53,11 +53,11 @@ class iguana
 		String.prototype.strip = function(chars='') {
 			var start = 0;
 			while (chars.indexOf(this[start]) >= 0) {
-			start += 1;
+				start += 1;
 			}
 			var end = this.length - 1;
 			while (chars.indexOf(this[end]) >= 0) {
-			end -= 1;
+				end -= 1;
 			}
 			return this.substr(start, end - start + 1);
 		}
@@ -69,6 +69,13 @@ class iguana
 		// clamp a number to min/max
 		Number.prototype.clamp = function(min, max) {
 			return Math.min(Math.max(this, min), max);
+		};
+
+		Math.isEven = function(numb){
+			return ((numb % 2) == 0)
+		};
+		Math.isOdd = function(numb){
+			return ((numb % 2) != 0)
 		};
 
 		// extend url
@@ -183,7 +190,7 @@ class iguana
 	};
 
 	get info() {
-		return `Lizard's toybox. Version 0.37`
+		return `Lizard's toybox. Version 0.38`
 	};
 
 
@@ -626,32 +633,6 @@ class iguana
 
 
 
-	// ============================================================
-	// ============================================================
-	//                            clamp
-	// ============================================================
-	// ============================================================
-
-	// clamp a number between two values
-	clamp(num=3, min=0, max=5) {
-	  return num <= min 
-	    ? min 
-	    : num >= max 
-	      ? max 
-	      : num
-	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -890,12 +871,12 @@ class iguana
 
 	btoa(st=''){
 		if (st==''){return ''}
-		return base64EncArr(this.strToUTF8Arr(st))
+		return this.base64EncArr(this.strToUTF8Arr(st))
 	}
 
 	atob(st=''){
 		if (st==''){return ''}
-		return UTF8ArrToStr(this.base64DecToArr(st))
+		return this.UTF8ArrToStr(this.base64DecToArr(st))
 	}
 
 
@@ -986,7 +967,7 @@ class iguana
 
 	// ============================================================
 	// ============================================================
-	//       		await for an element of a page...
+	//       		await for an element on a page...
 	// ============================================================
 	// ============================================================
 
@@ -994,7 +975,7 @@ class iguana
 	// and a name
 	wait_elem(sel=null, identify=null)
 	{
-		if (sel == null){return false}
+		if (!sel){return false}
 		var thy = this;
 		const save_sel = sel;
 		var me = identify || this.rndwave(32, 'def').replaceAll('-', '').replaceAll('_', '')
@@ -1026,13 +1007,6 @@ class iguana
 
 		return waiter
 	}
-
-
-
-
-
-
-
 
 
 
@@ -1185,65 +1159,6 @@ class iguana
 		return imageUrl
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// ============================================================
-	// ============================================================
-	//                            Other
-	// ============================================================
-	// ============================================================
-
-
-	// load user script
-	// specify what script to load
-	// (link to .js)
-	// beware of gayshit CORS policy.
-	/*
-	function load_dasboat(uscript)
-	{
-		// $('body').append('<div>loaded shit</div>')
-		function success()
-		{
-			// var $ = window.jQuery;
-			console.log('liz3_loaded_userscript');
-			// $('body').append('<div>loaded shit</div>');
-		}
-		var startingTime = new Date().getTime();
-		// Load the script
-		var script = document.createElement('SCRIPT');
-		script.src = uscript;
-		script.type = 'text/javascript';
-		script.onload = function() {
-			// var $ = window.jQuery;
-			$(function() {
-				var endingTime = new Date().getTime();
-				var tookTime = endingTime - startingTime;
-				console.log('l3UScript loaded in ' + tookTime + ' milliseconds');
-				// $('body').append('<div>loaded shit</div>')
-			});
-		};
-		document.getElementsByTagName('head')[0].appendChild(script);
-	}
-	*/
 
 
 }
