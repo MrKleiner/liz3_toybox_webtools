@@ -52,14 +52,15 @@ class iguana
 
 		String.prototype.strip = function(chars='') {
 			var start = 0;
-			while (chars.indexOf(this[start]) >= 0) {
+			var trimmerd = this.trim()
+			while (chars.indexOf(trimmerd[start]) >= 0) {
 				start += 1;
 			}
-			var end = this.length - 1;
-			while (chars.indexOf(this[end]) >= 0) {
+			var end = trimmerd.length - 1;
+			while (chars.indexOf(trimmerd[end]) >= 0) {
 				end -= 1;
 			}
-			return this.substr(start, end - start + 1);
+			return trimmerd.substr(start, end - start + 1);
 		}
 
 		//
@@ -91,7 +92,7 @@ class iguana
 				const sex = {
 					'name': base.at(-1) || null,
 					'suffix': base.at(-1).split('.').at(-1) || null,
-					'stem': base.at(-1).split('.').pop() || null,
+					'stem': base.at(-1).split('.').pop().join('.') || null,
 					'stem_raw': base.at(-1).split('.')[0] || null
 				}
 				return sex
@@ -99,10 +100,6 @@ class iguana
 		}
 
 		window[identifier] = more_url
-
-		// Number.prototype.zfill = function(amt=1, char='0') {
-		// 	return num < 10 ? '0' + num : num;
-		// }
 
 
 		// python things
@@ -192,69 +189,6 @@ class iguana
 	get info() {
 		return `Lizard's toybox. Version 0.38`
 	};
-
-
-	/*
-	get help() {
-		return {
-			'info': `Lizard's toybox. Version 0.32`,
-
-			'json_searcher': {
-				'description': `A set of useful functions to search thorugh json objects and find k:v pairs`,
-				'find_objects': `
-					//example of grabbing objects that match some key and value in JSON
-					console.log(find_objects(js,'ID','SGML'));
-					//returns 1 object where a key names ID has the value SGML
-
-					//example of grabbing objects that match some key in JSON
-					console.log(find_objects(js,'ID',''));
-					//returns 2 objects since keys with name ID are found in 2 objects
-
-					//example of grabbing obejcts that match some value in JSON
-					console.log(find_objects(js,'','SGML'));
-					//returns 2 object since 2 obects have keys with the value SGML
-
-					//example of grabbing objects that match some key in JSON
-					console.log(find_objects(js,'ID',''));
-					//returns 2 objects since keys with name ID are found in 2 objects
-				`,
-				'find_values': `
-					//example of grabbing values from any key passed in JSON
-					console.log(find_values(js,'ID'));
-					//returns array ["SGML", "44"]
-				`,
-				'find_keys': `
-					//example of grabbing keys by searching via values in JSON
-					console.log(find_keys(js,'SGML'));
-					//returns array ["ID", "SortAs", "Acronym", "str"] 
-				`
-			},
-
-			'Random String Generator (rndwave)': {
-				'description': 'Generate a random string of specified length.',
-				'len': `The length of the resulting string, can be 0. (default to 8)`,
-				'method': {
-					'def': `Default charset: A-Z,-,_ + additional characters, if any`,
-					'num': `A number + additional characters, if any`,
-					'flac': `Same as def, but with additional symbols`
-				}
-			},
-
-			'copytext': {
-				'description': 'Pass a string to copy it to buffer.'
-			},
-
-			'rgb2hex': {
-				'description': 'Convert RGB (128, 66, 111) to hex (#995757)'
-			},
-
-			'textdl': {
-				'description': 'Download a file of specified filename and text content',
-			}
-		}
-	}
-	*/
-
 
 
 
@@ -403,7 +337,7 @@ class iguana
 
 	// it's actually extremely fucking bad from technical point of view
 	// but it's fast enough to generate very long strings
-	// and then generate hash our of them
+	// and then generate hash out of them
 
 	// proper random shit
 	// methods: 
@@ -1039,7 +973,7 @@ class iguana
 
 	// ============================================================
 	// ============================================================
-	// 	          Delete nth character from a string
+	// 	          Delete every nth character from a string
 	// ============================================================
 	// ============================================================
 
@@ -1048,7 +982,7 @@ class iguana
 	// use - if set to true, will return every n character
 	// if set to false or not set, will return a string with every n character deleted
 	// smartass: Works with arrays too
-	delnthchar(st, nth, use)
+	delnthchar(st, nth, use=false)
 	{
 		if (st.toString() == ''){ return ''}
 
