@@ -89,10 +89,12 @@ class iguana
 		class more_url extends (window.URL || window.webkitURL){
 			get target(){
 				const base = this.pathname.split('/')
+				var stem = base.at(-1).split('.')
+				stem.pop()
 				const sex = {
 					'name': base.at(-1) || null,
 					'suffix': base.at(-1).split('.').at(-1) || null,
-					'stem': base.at(-1).split('.').pop().join('.') || null,
+					'stem': stem.join('.') || null,
 					'stem_raw': base.at(-1).split('.')[0] || null
 				}
 				return sex
