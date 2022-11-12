@@ -99,6 +99,9 @@ class iguana
 				}
 				return sex
 			}
+			get no_search(){
+				return this.origin + this.pathname
+			}
 		}
 
 		window[identifier] = more_url
@@ -128,6 +131,11 @@ class iguana
 		window.float = float
 
 		function len(inp){
+			try {
+				if (this.isDict(inp)){
+					return Object.keys(inp).length
+				}
+			} catch (error) {}
 			try {
 				return inp.length
 			} catch (error) {
@@ -193,7 +201,9 @@ class iguana
 	};
 
 
-
+	isDict(v) {
+		return typeof v==='object' && v!==null && !(v instanceof Array) && !(v instanceof Date);
+	}
 
 
 
