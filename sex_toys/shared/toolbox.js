@@ -194,6 +194,29 @@ class iguana
 		}
 
 
+		function compare_buffers(buff2){
+			if (this.byteLength != buf2.byteLength) return false;
+			var dv1 = new Int8Array(this);
+			var dv2 = new Int8Array(buf2);
+			for (var i = 0 ; i != this.byteLength ; i++){
+				if (dv1[i] != dv2[i]) return false;
+			}
+			return true;
+		}
+
+		ArrayBuffer.sameAs = compare_buffers;
+		Uint8Array.sameAs = compare_buffers;
+		Uint16Array.sameAs = compare_buffers;
+		Uint32Array.sameAs = compare_buffers;
+		Uint8ClampedArray.sameAs = compare_buffers;
+		BigUint64Array.sameAs = compare_buffers;
+		Int8Array.sameAs = compare_buffers;
+		Int16Array.sameAs = compare_buffers;
+		Float32Array.sameAs = compare_buffers;
+		Float64Array.sameAs = compare_buffers;
+		BigInt64Array.sameAs = compare_buffers;
+
+
 	};
 
 	get info() {
