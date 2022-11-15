@@ -142,6 +142,7 @@ class iguana
 				return str(inp).length
 			}
 		}
+		window.len = len
 
 		// python-like range()
 		function* range(start=0, stop=null, step=1)
