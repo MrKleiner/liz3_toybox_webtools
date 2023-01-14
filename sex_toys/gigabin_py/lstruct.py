@@ -17,6 +17,7 @@ class _lstruct_ram_file_obj:
 	def __add__(self, val):
 		# self.bytes += val
 		self.bytes.extend(val)
+		return self
 
 
 
@@ -31,9 +32,17 @@ class _lightstruct_file:
 		self.file = ref
 		self.readonly = readonly
 
+		self.lists = {}
+		self.lstruct.apply_list(self)
+
 	# todo: raise exceptions when passed data doesn't match the rule itself
 
 	def __getitem__(self, rname):
+		# lists are completely different
+		if self.lstruct.struct[rname][0] == list:
+			return self.lists[rname]
+
+
 		# when reading stuff the cursor position is shifted from its original location
 		# this is extremely invonvenient
 		# therefore, it has to be restored to the original position once done reading the chunk
@@ -137,7 +146,15 @@ class _lightstruct_ram:
 		self.file = ref
 		self.readonly = readonly
 
+		# apply lists
+		self.lists = {}
+		self.lstruct.apply_list(self)
+
 	def __getitem__(self, rname):
+		# lists are completely different
+		if self.lstruct.struct[rname][0] == list:
+			return self.lists[rname]
+
 		rule_offs = self.get_rule_offs(rname)
 		rule_bytes = self.file[rule_offs:(rule_offs+self.lstruct.rlens[rname])]
 
@@ -157,6 +174,8 @@ class _lightstruct_ram:
 	# fork a new instance, but with new offset
 	def with_offset(self, offst, readonly=None):
 		return self.lstruct.apply(self, offst, readonly or self.readonly)
+
+
 
 
 
@@ -227,8 +246,11 @@ class lightstruct:
 		# store byteorder like this, because it could be changed manually
 		self.sys_byteorder = sys.byteorder
 
+		# return single values without a tuple
+		# and accept single values without a tuple
 		self.smart = False
 		self.allowed_smart = (list, tuple, str, bytes, bytearray)
+
 
 		# how many bytes does each int type take
 		# this dict also identifies which rules have to be treaten as an int
@@ -272,7 +294,10 @@ class lightstruct:
 			# get the rule tuple
 			rule = self.struct[rule_name]
 			# eval rule length
-			rule_length = self.bit_lengths[rule[0]] * rule[1]
+			if rule[0] == list:
+				rule_length = rule[2].len * rule[1]
+			else:
+				rule_length = self.bit_lengths[rule[0]] * rule[1]
 			# write down the offset for the current rule
 			self.offsets[rule_name] = total_offs
 			# add the rule length to the total offset
@@ -280,7 +305,7 @@ class lightstruct:
 			# also, write down the rule length into the individual rule lengths dict
 			self.rlens[rule_name] = rule_length
 
-		# total length of the entire struct definition
+		# total byte length of the entire struct definition
 		self.len = total_offs
 
 
@@ -291,7 +316,7 @@ class lightstruct:
 		if self.smart == True and not type(data) in self.allowed_smart:
 			data = (data,)
 		if len(data) != self.struct[rname][1]:
-			raise Exception(f"""Passed data doesn't match the rule (the passed tuple is not of the defined rule length), {data}, {self.struct[rname][1]}""")
+			raise Exception(f"""Passed data doesn't match the rule (the passed tuple is not of the defined rule length), {data}:{len(data)}, {self.struct[rname][1]}""")
 
 	def apply(self, ref, offs=0, onlyread=False):
 
@@ -460,6 +485,27 @@ class lightstruct:
 	# 	if ena in (True, False):
 	# 		self.smart = ena
 
+
+	def apply_list(self, struct_ref):
+
+		this = struct_ref
+
+		# apply lists, if any
+		struct = this.lstruct.struct
+		# self.lstruct.offsets[rule]
+		for rule in struct:
+			if struct[rule][0] == list:
+				applied_structs = []
+				list_offs = 0
+				for list_struct in range(struct[rule][1]):
+					this_offs = this.gl_offs + this.lstruct.offsets[rule] + list_offs
+					applied_structs.append(struct[rule][2].apply(this.file, this_offs, this.readonly)[0])
+					list_offs += struct[rule][2].len
+
+				if len(struct[rule]) == 4:
+					this.lists[rule] = dict(zip(struct[rule][3], applied_structs))
+				else:
+					this.lists[rule] = applied_structs
 
 
 
