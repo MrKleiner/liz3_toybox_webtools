@@ -1,5 +1,4 @@
-
-
+(function() {
 
 
 class iguana
@@ -10,12 +9,15 @@ class iguana
 		this.gigastorage = {}
 		this.gigastorage.waiters = {}
 
+
+
+
+
 		//
 		//	Python things
 		//
 
-
-		// capitalize string
+		// Strings
 		String.prototype.capitalize = function() {
 			return this.charAt(0).toUpperCase() + this.slice(1);
 		}
@@ -63,53 +65,7 @@ class iguana
 			return trimmerd.substr(start, end - start + 1);
 		}
 
-		//
-		// Other improvements
-		//
-
-		// clamp a number to min/max
-		Number.prototype.clamp = function(min, max) {
-			return Math.min(Math.max(this, min), max);
-		};
-
-		Math.isEven = function(numb){
-			return ((numb % 2) == 0)
-		};
-		Math.isOdd = function(numb){
-			return ((numb % 2) != 0)
-		};
-
-		// extend url
-		// (window.URL || window.webkitURL).prototype.target = function(first_argument) {
-
-		// };
-
-
-		const identifier = window.URL ? 'URL' : 'webkitURL'
-		class more_url extends (window.URL || window.webkitURL){
-			get target(){
-				const base = this.pathname.split('/')
-				var stem = base.at(-1).split('.')
-				stem.pop()
-				const sex = {
-					'name': base.at(-1) || null,
-					'suffix': base.at(-1).split('.').at(-1) || null,
-					'stem': stem.join('.') || null,
-					'stem_raw': base.at(-1).split('.')[0] || null
-				}
-				return sex
-			}
-			get no_search(){
-				return this.origin + this.pathname
-			}
-		}
-
-		window[identifier] = more_url
-
-
-		// python things
-
-		function str(inp){
+		window.str = function (inp){
 			// return inp.toString()
 			try {
 				let shite = inp.toString();
@@ -118,19 +74,39 @@ class iguana
 				return '' + inp
 			}
 		}
-		window.str = str
 
-		function int(inp){
+		// Other python things
+		window.int = function (inp=null){
+			if (inp == null){
+				return {
+					from_bytes: function(bts){
+						const accepted = [
+							bts instanceof ArrayBuffer,
+							bts instanceof Uint8Array,
+							bts instanceof Uint16Array,
+							bts instanceof Uint32Array,
+							bts instanceof Uint8ClampedArray,
+							bts instanceof BigUint64Array,
+							bts instanceof Int8Array,
+							bts instanceof Int16Array,
+							bts instanceof Float32Array,
+							bts instanceof Float64Array,
+							bts instanceof BigInt64Array
+						];
+
+						return new Uint32Array(bts)[0]
+					}
+				}
+			}
+
 			return parseInt(inp)
 		}
-		window.int = int
 
-		function float(inp){
+		window.float = function (inp){
 			return parseFloat(inp)
 		}
-		window.float = float
 
-		function len(inp){
+		window.len = function (inp){
 			try {
 				if (this.isDict(inp)){
 					return Object.keys(inp).length
@@ -142,11 +118,9 @@ class iguana
 				return str(inp).length
 			}
 		}
-		window.len = len
 
 		// python-like range()
-		function* range(start=0, stop=null, step=1)
-		{
+		window.range = 	function* (start=0, stop=null, step=1){
 			if (stop == null){
 				stop = start
 				start = 0
@@ -171,12 +145,83 @@ class iguana
 				start += step
 			}
 		}
-		window.range = range
+
+
+
+
+
+
+		//
+		// Other improvements
+		//
+
+		// clamp a number to min/max
+		Number.prototype.clamp = function(min, max) {
+			return Math.min(Math.max(this, min), max);
+		};
+
+		Math.isEven = function(numb){
+			return ((numb % 2) == 0)
+		};
+		Math.isOdd = function(numb){
+			return ((numb % 2) != 0)
+		};
+
+		//
+		// Extend window.URL a bit
+		//
+		const _ext_url_identifier = window.URL ? 'URL' : 'webkitURL'
+		class more_url extends (window.URL || window.webkitURL){
+			get target(){
+				const base = this.pathname.split('/')
+				var stem = base.at(-1).split('.')
+				stem.pop()
+				const sex = {
+					'name': base.at(-1) || null,
+					'suffix': base.at(-1).split('.').at(-1) || null,
+					'stem': stem.join('.') || null,
+					'stem_raw': base.at(-1).split('.')[0] || null
+				}
+				return sex
+			}
+			get no_search(){
+				return this.origin + this.pathname
+			}
+		}
+
+		window[_ext_url_identifier] = more_url;
+
+
 
 
 		//
 		// Other useful extensions
 		//
+		const clasref = this;
+
+		this._buffer_types = [
+			ArrayBuffer,
+			Uint8Array,
+			Uint16Array,
+			Uint32Array,
+			Uint8ClampedArray,
+			BigUint64Array,
+			Int8Array,
+			Int16Array,
+			Float32Array,
+			Float64Array,
+			BigInt64Array,
+		];
+
+		this._extend_buffer_types = function(ext_name, ext_with, ext_proto=false){
+			for (let bft of this._buffer_types){
+				if (ext_proto){
+					bft.__proto__[ext_name] = ext_with;
+				}else{
+					bft[ext_name] = ext_with;
+				}
+			}
+		}
 
 		window.localStorage.__proto__.getObject = function(itemname){
 			const got_item = window.localStorage.getItem(itemname)
@@ -193,9 +238,24 @@ class iguana
 				window.localStorage.setItem(itemname, itemval)
 			}
 		}
+		window.localStorage.__proto__.getObj = function(itemname){
+			const got_item = window.localStorage.getItem(itemname)
+			try {
+				return JSON.parse(got_item)
+			} catch (error) {
+				return got_item
+			}
+		}
+		window.localStorage.__proto__.setObj = function(itemname, itemval){
+			try {
+				window.localStorage.setItem(itemname, JSON.stringify(itemval))
+			} catch (error) {
+				window.localStorage.setItem(itemname, itemval)
+			}
+		}
 
-
-		function compare_buffers(buff2){
+		// buffer comparison. Slow, but usually faster than hashing in js...
+		function _compare_buffers(buff2){
 			if (this.byteLength != buf2.byteLength) return false;
 			var dv1 = new Int8Array(this);
 			var dv2 = new Int8Array(buf2);
@@ -204,24 +264,31 @@ class iguana
 			}
 			return true;
 		}
+		this._extend_buffer_types('sameAs', _compare_buffers)
 
-		ArrayBuffer.sameAs = compare_buffers;
-		Uint8Array.sameAs = compare_buffers;
-		Uint16Array.sameAs = compare_buffers;
-		Uint32Array.sameAs = compare_buffers;
-		Uint8ClampedArray.sameAs = compare_buffers;
-		BigUint64Array.sameAs = compare_buffers;
-		Int8Array.sameAs = compare_buffers;
-		Int16Array.sameAs = compare_buffers;
-		Float32Array.sameAs = compare_buffers;
-		Float64Array.sameAs = compare_buffers;
-		BigInt64Array.sameAs = compare_buffers;
+
+		function _array_buffer_to_string(){
+			return clasref.UTF8ArrToStr(this)
+		}
+		this._extend_buffer_types('decode', _array_buffer_to_string, true)
+
+		// Python-like b64 module
+		this.base64 = {
+			// Encode an ARRAY to b64 string
+			b64encode: function(ar){
+				return clasref._b64_enc(ar, clasref)
+			},
+			// Decode a b64 STRING to an array
+			b64decode: function(ar){
+				return clasref._b64_dec(ar, clasref)
+			},
+		}
 
 
 	};
 
 	get info() {
-		return `Lizard's toybox. Version 0.38`
+		return `Lizard's toybox. Version 0.39`
 	};
 
 
@@ -439,7 +506,7 @@ class iguana
 
 	// ============================================================
 	// ============================================================
-	//              Get a random number from in a range
+	//              Get a random number from within a range
 	// ============================================================
 	// ============================================================
 
@@ -559,12 +626,13 @@ class iguana
 	// ============================================================
 
 	// copy smth to ctrl+c
-	copytext(l3text){
-		var $temp = $('<input style="opacity: 0;position: absolute;">');
-		$('body').append($temp);
-		$temp.val(l3text).select();
+	copytext(tgt_text){
+		const tmp = this.ehtml('<input style="opacity: 0;position: absolute;z-index: -214748364">')
+		document.body.append(tmp);
+		tmp.value = tgt_text;
+		tmp.select();
 		document.execCommand('copy');
-		$temp.remove();
+		tmp.remove();
 	}
 
 
@@ -846,18 +914,39 @@ class iguana
 
 	}
 
+	// advanced string encoding
+	// (basically fixed native atob/btoa)
 	btoa(st=''){
 		if (st==''){return ''}
 		return this.base64EncArr(this.strToUTF8Arr(st))
+	}
+	// ONLY takes ArrayBuffers AND regular arrays as an input
+	_b64_enc(arr, self){
+		if (!ArrayBuffer.isView(arr) && !Array.isArray(arr)){
+			console.error('Lizard: The argument passed to b64encode is not an instance of ArrayBuffer and cannot be converted to one');
+			return null
+		}
+
+		return self.base64EncArr(arr)
 	}
 
 	atob(st=''){
 		if (st==''){return ''}
 		return this.UTF8ArrToStr(this.base64DecToArr(st))
 	}
+	// ONLY takes strings
+	_b64_dec(input_string, self){
+		if (typeof input_string != 'string'){
+			console.error('Lizard: The argument passed to b64decode is not a string');
+			return null
+		}
+
+		return self.base64EncArr(arr)
+	}
 
 
 	// quick string encoding
+	// basically old an obsolete way of encoding strings
 	u8btoa(st) {
 	    return btoa(unescape(encodeURIComponent(st)));
 	}
@@ -865,43 +954,6 @@ class iguana
 	u8atob(st) {
 	    return decodeURIComponent(escape(atob(st)));
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// ============================================================
-	// ============================================================
-	//              remove duplicates from an array
-	// ============================================================
-	// ============================================================
-
-	/*
-	https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
-	*/
-	// deletes duplicates from given array
-	rmdupli(a) {
-	   return Array.from(new Set(a));
-	}
-
-
 
 
 
@@ -1055,7 +1107,11 @@ class iguana
 				}
 			}
 		}
-		return delres.join('')
+		if (Array.isArray(st)){
+			return delres
+		}else{
+			return delres.join('')
+		}
 	}
 
 
@@ -1140,4 +1196,21 @@ class iguana
 
 }
 window.lizard = new iguana();
+const _lzrd = window.lizard;
+
+
+
+
+Array.prototype.rmdupli = function(){
+	return Array.from(new Set(this));
+}
+
+String.prototype.encode = function(){
+	return _lzrd.strToUTF8Arr(this)
+}
+
+
+
+})();
+
 

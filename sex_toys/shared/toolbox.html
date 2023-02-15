@@ -35,14 +35,14 @@
 		</div>
 
 		<div class="section">
-			<h1><func>str()</func></h1>
+			<h1><func-path>window.</func-path><func>str()</func></h1>
 			<div class="section_description">Python-like str(). Can take anything as an input and returns a string</div>
 			<func-input>str(65535)</func-input>
 			<func-output>'65535'</func-output>
 		</div>
 
 		<div class="section">
-			<h1><func>int()</func></h1>
+			<h1><func-path>window.</func-path><func>int()</func></h1>
 			<div class="section_description">Python-like int(). Can take anything as an input and tries to evaulate an int</div>
 			<func-input>int('65535')</func-input>
 			<func-output>65535</func-output>
@@ -53,14 +53,14 @@
 		</div>
 
 		<div class="section">
-			<h1><func>float()</func></h1>
+			<h1><func-path>window.</func-path><func>float()</func></h1>
 			<div class="section_description">Python-like float(). Can take anything as an input and tries to evaulate a float</div>
 			<func-input>float('65535')</func-input>
 			<func-output>65535.0</func-output>
 		</div>
 
 		<div class="section">
-			<h1><func>len()</func></h1>
+			<h1><func-path>window.</func-path><func>len()</func></h1>
 			<div class="section_description">Python-like len(). Can take anything as an input and tries to evaulate a length of the object</div>
 			<func-input>len('lizards')</func-input>
 			<func-output>7</func-output>
@@ -71,7 +71,7 @@
 		</div>
 
 		<div class="section">
-			<h1><func>range()</func></h1>
+			<h1><func-path>window.</func-path><func>range()</func></h1>
 			<div class="section_description">Python-like range(). Generator function. It's very important to use of and not in</div>
 			<ul>
 				<li>Start: 0.</li>
@@ -221,18 +221,152 @@
 				<li>Crypto: true. True = generate better results with window.crypto at the cost of 50% decrease in performance</li>
 			</ul>
 			<drop></drop>
-			<div class="section_description">example of grabbing keys by searching via values in JSON</div>
 			<func-input>lizard.rndwave(20)</func-input>
 			<func-output>'r87a9WosskQ9EFmrHAOZ'</func-output>
 		</div>
 
 
 
+		<div class="section">
+			<h1><func-path>lizard.</func-path><func>isDict</func></h1>
+			<div class="section_description">Check whether the provided object is a dict or not</div>
+			<ul>
+				<li>Object</li>
+			</ul>
+			<drop></drop>
+			<func-input>lizard.isDict({'a': 'b'})</func-input>
+			<func-output>true</func-output>
+
+			<func-input>lizard.isDict(['a', 'b'])</func-input>
+			<func-output>false</func-output>
+		</div>
 
 
 
 
+		<div class="section">
+			<h1><func-path>lizard.</func-path><func>copytext</func></h1>
+			<div class="section_description">Copy text to ctrl+c</div>
+			<ul>
+				<li>String</li>
+			</ul>
+			<drop></drop>
+			<func-input>lizard.copytext('sometext')</func-input>
+			<func-output>null</func-output>
+		</div>
 
+
+
+		<div class="section">
+			<h1><func-path>lizard.</func-path><func>rgb2hex</func></h1>
+			<div class="section_description">Convert css rgb() to hex</div>
+			<ul>
+				<li>RGB Value</li>
+			</ul>
+			<drop></drop>
+			<func-input>lizard.rgb2hex('rgb(88, 187, 126)')</func-input>
+			<func-output>'#58bb7e'</func-output>
+		</div>
+
+
+
+		<div class="section">
+			<h1><func-path>lizard.base64.</func-path><func>b64encode</func></h1>
+			<div class="section_description">Encode a UTF8 Array to string</div>
+			<ul>
+				<li>TypedArray | ArrayBuffer | Array</li>
+			</ul>
+			<drop></drop>
+			<func-input>lizard.base64.b64encode([112, 111, 111, 116, 105, 115])</func-input>
+			<func-output>'cG9vdGlz'</func-output>
+		</div>
+
+		<div class="section">
+			<h1><func-path>lizard.base64.</func-path><func>b64decode</func></h1>
+			<div class="section_description">Decode a base64 string to UTF8 Array</div>
+			<ul>
+				<li>String</li>
+			</ul>
+			<drop></drop>
+			<func-input>lizard.base64.b64encode('cG9vdGlz')</func-input>
+			<func-output>'pootis</func-output>
+		</div>
+
+		<div class="section">
+			<h1><func-path>String.prototype.</func-path><func>encode</func></h1>
+			<div class="section_description">Encode a string to UTF8 Array</div>
+			<drop></drop>
+			<func-input>'pootis'.encode()</func-input>
+			<func-output>Uint8Array([112, 111, 111, 116, 105, 115])</func-output>
+		</div>
+
+
+		<div class="section">
+			<h1><func-path>lizard.</func-path><func>btoa</func></h1>
+			<div class="section_description">Properly ENcode a string to base64</div>
+			<ul>
+				<li>String</li>
+			</ul>
+			<drop></drop>
+			<func-input>lizard.btoa('pootis')</func-input>
+			<func-output>'cG9vdGlz'</func-output>
+		</div>
+
+		<div class="section">
+			<h1><func-path>lizard.</func-path><func>atob</func></h1>
+			<div class="section_description">Properly DEcode a base64 string back to normal string</div>
+			<ul>
+				<li>String</li>
+			</ul>
+			<drop></drop>
+			<func-input>lizard.atob('cG9vdGlz')</func-input>
+			<func-output>'pootis'</func-output>
+		</div>
+
+		<div class="section">
+			<h1><func-path>Array.prototype.</func-path><func>rmdupli</func></h1>
+			<div class="section_description">Remove duplicates from the given array</div>
+			<drop></drop>
+			<func-input>['a', 'a'].rmdupli()</func-input>
+			<func-output>['a']</func-output>
+		</div>
+
+
+		<div class="section">
+			<h1><func-path>lizard.</func-path><func>wait_elem</func></h1>
+			<div class="section_description">
+				Wait for a certain selector to appear on the page (useful for writing custom scripts for websites)<br>
+				First you have to create the control object:
+			</div>
+			<ul>
+				<li>Selector: css selector, like '.inner_content #channel_section'</li>
+				<li>Identifier: an id to identify this task in a global pool of similar ones</li>
+			</ul>
+			<drop></drop>
+			<func-input>var load_waiter = lizard.wait_elem('.inner_content #channel_section', 'pg_init_wait')</func-input>
+			<div class="section_description">Returns a control object with the following methods:</div>
+			<ul>
+				<li>wait: returns a Promise resolved after the required element appears on the page</li>
+				<li>abort: stop waiting for this element</li>
+			</ul>
+		</div>
+
+
+		<div class="section">
+			<h1><func-path>lizard.</func-path><func>delnthchar</func></h1>
+			<div class="section_description">Delete nth element from an Array | String</div>
+			<ul>
+				<li>Input object</li>
+				<li>Nth</li>
+				<li>Use: If set to true, will return every nth element. If set to false (default) or null, will return an object with every nth element deleted</li>
+			</ul>
+			<drop></drop>
+			<func-input>lizard.delnthchar('pootis', 2)</func-input>
+			<func-output>'poi'</func-output>
+
+			<func-input>lizard.delnthchar('pootis', 2, true)</func-input>
+			<func-output>'ots'</func-output>
+		</div>
 
 
 	</body>
