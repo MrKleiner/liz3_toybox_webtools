@@ -108,7 +108,7 @@ class _lightstruct_file:
 
 		return result
 
-	# dump all values to a dict
+	# dump all values to bytes
 	def dump_bytes(self):
 		original_pos = self.file.tell()
 
@@ -175,7 +175,12 @@ class _lightstruct_ram:
 	def with_offset(self, offst, readonly=None):
 		return self.lstruct.apply(self, offst, readonly or self.readonly)
 
+	# set global offset
+	def set_offset(self, gl_offs=None):
+		if type(gl_offs) != int:
+			raise Exception(f"""Set offset only takes integers as an input, but {type(gl_offs)} was passed""")
 
+		self.gl_offs = gl_offs
 
 
 
@@ -312,12 +317,15 @@ class lightstruct:
 	# validate whether passed data matches the rule itself
 	# todo: also validate structure
 	# BUT do so efficiently without looping 100 times
+	# important todo: pad strings with \0
 	def validate(self, rname, data):
 		if self.smart == True and not type(data) in self.allowed_smart:
 			data = (data,)
 		if len(data) != self.struct[rname][1]:
 			raise Exception(f"""Passed data doesn't match the rule (the passed tuple is not of the defined rule length), {data}:{len(data)}, {self.struct[rname][1]}""")
 
+	# todo: make it possible to pass a dict to the apply function
+	# which would mean create the object and update it immediately with the following settings
 	def apply(self, ref, offs=0, onlyread=False):
 
 		#
@@ -485,7 +493,8 @@ class lightstruct:
 	# 	if ena in (True, False):
 	# 		self.smart = ena
 
-
+	# Apply a list of structures
+	# pass the fourth argument to zip the structure array into a dict
 	def apply_list(self, struct_ref):
 
 		this = struct_ref
@@ -535,7 +544,9 @@ class lightstruct:
 
 
 
-
+# @
+# Rubbish split
+# @
 
 
 if __name__ == '__main__':
