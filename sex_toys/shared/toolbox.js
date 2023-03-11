@@ -511,11 +511,14 @@ class iguana
 	// ============================================================
 
 	// inclusive from both sides
-	rnd_interval(min, max) {
+	rnd_interval(min, max, fixed_len=false) {
 		return Math.floor(Math.random() * (max - min + 1) + min)
 	}
 
-
+	// random int of a fixed length
+	rnd_int_fixed(digit_count){
+		return Math.floor(int('1' + '0'.repeat(digit_count-1)) + Math.random() * int('9' + '0'.repeat(digit_count-1)))
+	}
 
 
 
@@ -1201,9 +1204,9 @@ const _lzrd = window.lizard;
 
 
 
-Array.prototype.rmdupli = function(){
-	return Array.from(new Set(this));
-}
+// Array.prototype.rmdupli = function(){
+// 	return Array.from(new Set(this));
+// }
 
 String.prototype.encode = function(){
 	return _lzrd.strToUTF8Arr(this)
