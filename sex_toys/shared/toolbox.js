@@ -126,10 +126,12 @@ const _lizard = {
 {
 	// python-like len()
 	window.len = function (inp){
+		if (str(typeof inp).lower() == 'number'){
+			throw new Error('Numbers have no length');
+			return
+		}
 		try {
-			if (_lizard.isDict(inp)){
-				return Object.keys(inp).length
-			}
+			return Object.keys(inp).length
 		} catch (error) {}
 		try {
 			return inp.length
