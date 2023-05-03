@@ -265,10 +265,6 @@ const _buffer_types = [
 		Error,
 		Boolean,
 		Symbol,
-		Infinity,
-		NaN,
-		undefined,
-		null,
 
 		// TODO: BROWSER COMPAT
 		Atomics,
@@ -285,7 +281,17 @@ const _buffer_types = [
 		TypeError,
 		URIError,
 	]
+	const _prohibited_explicit = [
+		Infinity,
+		NaN,
+		undefined,
+		null,
+	]
 	_lizard.isDict = function(v){
+		if (_prohibited_explicit.includes(v)){
+			return false
+		}
+		
 		if ((typeof v).lower() !== 'object'){
 			return false
 		}
