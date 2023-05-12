@@ -1,7 +1,7 @@
 (function() {
 
 const _lizard = {
-	info: `Lizard's toybox. Version 0.43`,
+	info: `Lizard's toybox. Version 0.45`,
 	obsolete: {},
 };
 
@@ -159,6 +159,7 @@ const _lizard = {
 			stop = parseInt(stop)
 			step = parseInt(step)
 		} catch (error) {
+			console.error('Range iterator: Invalid parameters', start, stop, step)
 			return []
 		}
 		
