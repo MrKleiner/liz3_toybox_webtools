@@ -16,6 +16,13 @@ const _lizard = {
 //         Strings
 // -----------------------
 {
+	// LEGACY
+	String.prototype.zfill = function(amt=1, char='0') {
+		var pad_char = typeof char !== 'undefined' ? char : '0';
+		var pad = new Array(1 + amt).join(pad_char);
+		return (pad + this).slice(-pad.length);
+	}
+
 
 	// Strings
 	String.prototype.capitalize = function() {
@@ -113,10 +120,11 @@ const _lizard = {
 //         Arrays
 // -----------------------
 {
-	Array.prototype.rmdupli = function(){
-		const _to_set = new Set(this);
-		return Array.from(_to_set);
-	}
+	// IMPORTANT TODO: WHY IS THIS ALWAYS CAUSING PROBLEMS ????
+	// Array.prototype.rmdupli = function(){
+	// 	const _to_set = new Set(this);
+	// 	return Array.from(_to_set);
+	// }
 }
 
 
@@ -755,6 +763,7 @@ _lizard.delnthelem = function(st, nth, use=false)
 	}
 }
 
+_lizard.delnthchar = _lizard.delnthelem;
 
 
 // --------------------------------
