@@ -713,7 +713,7 @@ _lizard.textdl = function(filename='lizard.txt', text='iguana') {
 // --------------------------------
 _lizard.ehtml = function(c){
 	const shit = document.createElement('div');
-	shit.innerHTML = s;
+	shit.innerHTML = c;
 	return shit.children[0]
 }
 
